@@ -16668,7 +16668,7 @@ exports = module.exports = __webpack_require__(5)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -16681,6 +16681,19 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -16718,7 +16731,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             },
             amountToBuy: [],
             message: [],
-            cartList: []
+            cartList: [],
+            total: 0
         };
     },
     created: function created() {
@@ -16728,9 +16742,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         fetchCartList: function fetchCartList() {
+            var _this = this;
+
             __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('api/mycart').then(function (res) {
-                console.log(res);
+                _this.cartList = res.data.item;
+                _this.total = 0;
+                for (var index in _this.cartList) {
+                    var item = _this.cartList[index];
+                    _this.total += parseInt(item.price) * item.amount;
+                }
             });
+        },
+        removeItem: function removeItem(product) {
+            //axios.delete('api/mycart/');
+        },
+        changeAmount: function changeAmount(product, index) {
+            /* axios.post('api/mycart', this.cartData).then((res) => {
+             });*/
         }
     }
 });
@@ -16747,56 +16775,92 @@ var render = function() {
     _c("h1", [_vm._v("My Cart")]),
     _vm._v(" "),
     _c(
-      "ul",
-      { staticClass: "list-group" },
+      "table",
+      { staticClass: "table" },
       [
-        _vm.cartList.length === 0 ? _c("li", [_vm._v("Empty Cart")]) : _vm._e(),
+        _vm._m(0),
         _vm._v(" "),
         _vm._l(_vm.cartList, function(product, index) {
-          return product.amount !== 0
-            ? _c("li", { staticClass: "list-group-item" }, [
-                _vm._v(
-                  "\n                " +
-                    _vm._s(product.title) +
-                    "\n                " +
-                    _vm._s(product.price) +
-                    "\n                " +
-                    _vm._s(product.img) +
-                    "\n                Amount: " +
-                    _vm._s(product.amount) +
-                    "\n                "
-                ),
-                _c("label", { attrs: { for: "quantity" } }),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.amountToBuy[product.id],
-                      expression: "amountToBuy[product.id]"
+          return _c("tr", [
+            _c("td", [_vm._v(_vm._s(product.title))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(product.price))]),
+            _vm._v(" "),
+            _c("td", [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: product.amount,
+                    expression: "product.amount"
+                  }
+                ],
+                attrs: { type: "number", id: "quantity", min: "1" },
+                domProps: { value: product.amount },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
                     }
-                  ],
-                  attrs: { type: "number", id: "quantity", min: "1" },
-                  domProps: { value: _vm.amountToBuy[product.id] },
+                    _vm.$set(product, "amount", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("td", [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-danger btn-xs pull-right",
                   on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.amountToBuy, product.id, $event.target.value)
+                    click: function($event) {
+                      _vm.changeAmount(product, index)
                     }
                   }
-                })
-              ])
-            : _vm._e()
+                },
+                [_vm._v("Update Amount")]
+              )
+            ]),
+            _vm._v(" "),
+            _c("td", [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-danger btn-xs pull-right",
+                  on: {
+                    click: function($event) {
+                      _vm.removeItem(product)
+                    }
+                  }
+                },
+                [_vm._v("Delete Item")]
+              )
+            ])
+          ])
         })
       ],
       2
-    )
+    ),
+    _vm._v(" "),
+    _c("p", [_vm._v("Total Price: " + _vm._s(this.total))])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", [_vm._v("Title")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Price")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Amount")])
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
