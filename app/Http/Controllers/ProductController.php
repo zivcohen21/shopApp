@@ -35,7 +35,6 @@ class ProductController extends Controller
                     'img' => $product->img,
                     'amount' => $product->amount
                 ];
-
             }
             //error_log($products);
 
@@ -75,17 +74,11 @@ class ProductController extends Controller
             $curAmount = DB::table('products')->where('id', $productId)->value('amount');
             $curAmount -= $amountToBuy;
             $product = null;
-            if ($curAmount > 0) {
-                DB::table('products')->where('id', $productId)->update(['amount' => $curAmount]);
-                $product = DB::table('products')->where('id', $productId)->get();
-            } else if ($curAmount == 0) {
-                DB::table('products')->where('id', $productId)->delete();
-            }
-
-            $myCart = new Cart();
-            $myCart['$listOfProduct'] = $product;
+            DB::table('products')->where('id', $productId)->update(['amount' => $curAmount]);
+            $product = DB::table('products')->where('id', $productId)->get();
             $response['product'] = $product;
-            error_log($response['product']);
+            error_log($amountToBuy);
+            DB::table('carts')->insert(['productId' => $productId, 'amount' => $amountToBuy, 'userId' => 7]);
         }
         catch (Exception $e){
             $statusCode = 400;

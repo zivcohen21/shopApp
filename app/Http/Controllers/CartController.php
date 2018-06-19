@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Cart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Response;
 
 class CartController extends Controller
 {
@@ -14,7 +16,32 @@ class CartController extends Controller
      */
     public function index()
     {
-        //
+        try{
+            $statusCode = 200;
+            $response = [
+                'item'  => []
+            ];
+            $cartsItems = Cart::all();
+
+            foreach($cartsItems as $cartsItem)
+            {
+                $productId = $cartsItem->productId;
+                $product = DB::table('products')->select('id', 'title', 'price')->where('id', $productId)->get();
+                $amount = $cartsItem->amount;
+
+                $response['item'][] = [
+                    'id' => $product[0]->id,
+                    'title' => $product[0]->title,
+                    'price' => $product[0]->price,
+                    'amount' => $amount
+                ];
+
+            }
+        } catch (Exception $e){
+            $statusCode = 400;
+        }finally{
+            return Response::create($response, $statusCode);
+        }
     }
 
     /**

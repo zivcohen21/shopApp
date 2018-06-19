@@ -3,23 +3,24 @@
         <h1>Our Products</h1>
         <ul class="list-group">
             <li v-if='list.length === 0'>No Available Products!</li>
-            <li class="list-group-item" v-for="(product, index) in list">
+            <li v-if='product.amount !== 0' class="list-group-item" v-for="(product, index) in list">
                 {{ product.title }}
                 {{ product.price }}
                 {{ product.img }}
                 Amount: {{ product.amount }}
                 <label for="quantity"></label>
                 <input type="number" id="quantity" min="1" v-model="amountToBuy[product.id]">
-                <button @click="addToCart(product.id, index)" class="btn btn-danger btn-xs pull-right">Add To Cart</button>
+               <!-- <p v-if='message && message[index]'>{{ message[index] }}</p>-->
+                <button @click="addToCart(product, index)" class="btn btn-danger btn-xs pull-right">Add To Cart</button>
             </li>
         </ul>
-
-        <router-link :to="{ name: 'myCart' }">My Cart</router-link>
     </div>
 </template>
 
 <script>
+
     import axios from 'axios';
+    import MyCart from './MyCart';
     export default {
         data() {
             return {
@@ -29,15 +30,17 @@
                     title: '',
                     price: '',
                     img: '',
-                    amount: ''
+                    amount: 0
                 },
                 cartData: {
                     productId: '',
                     amountToBuy: 0
                 },
                 amountToBuy: [],
+                message: [],
             };
         },
+
 
         created() {
             this.fetchProductList();
@@ -50,25 +53,28 @@
                     console.log( this.list);
                 });
             },
-            addToCart(productId, index) {
-                this.cartData.productId = productId;
-                this.cartData.amountToBuy = parseInt(this.amountToBuy[productId]);
+            addToCart(product, index) {
+                this.cartData.productId = product.id;
+                this.cartData.amountToBuy = parseInt(this.amountToBuy[product.id]);
                 console.log(this.cartData);
                 if(this.cartData.amountToBuy <= this.list[index].amount)
                 {
                     axios.post('api/products', this.cartData).then((res) => {
                         if(res && res['data']['product'])
                         {
-                            console.log(res['data']['product']);
                             this.list[index].amount = res['data']['product'][0]['amount'];
                         }
-                        else if(res['data']['product'] == null)
-                        {
-                            this.list[index] = null;
-                            console.log(this.list[index]);
+                        else {
+                            this.list[index].amount = 0;
                         }
                     });
+                    this.amountToBuy[product.id] = '';
                 }
+                else {
+                    this.message[index] = 'Not Enough In Stock';
+                    console.log(this.message[index]);
+                }
+
             }
         }
     }
