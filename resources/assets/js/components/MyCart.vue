@@ -10,7 +10,7 @@
             <tr v-for="(product, index) in cartList">
                 <td>{{ product.title }}</td>
                 <td>{{ product.price }}</td>
-                <td> <input type="number" id="quantity" min="1" v-model="product.amount"></td>
+                <td> <input class="amount" type="number" id="quantity" min="1" v-model="product.amount"></td>
                 <td><button @click="changeAmount(product, index)" class="btn btn-danger btn-xs pull-right">Update Amount</button></td>
                 <td> <button @click="removeItem(product)" class="btn btn-danger btn-xs pull-right">Delete Item</button></td>
             </tr>
@@ -82,5 +82,10 @@
 </script>
 
 <style scoped>
-
+    .amount {
+        width: 60px;
+    }
+    .table {
+        width: 50%;
+    }
 </style>

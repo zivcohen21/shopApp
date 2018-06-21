@@ -1,30 +1,38 @@
 <template>
     <div class='row'>
         <h1>Our Products</h1>
-        <ul class="list-group">
-            <li v-if='list.length === 0'>No Available Products!</li>
-            <li v-if='product.amount !== 0' class="list-group-item" v-for="(product, index) in list">
-                {{ product.title }}
-                {{ product.price }}
-                {{ product.img }}
-                Amount: {{ product.amount }}
-                <label for="quantity"></label>
-                <input type="number" id="quantity" min="1" v-model="amountToBuy[product.id]">
-               <!-- <p v-if='message && message[index]'>{{ message[index] }}</p>-->
-                <button @click="addToCart(product, index)" class="btn btn-danger btn-xs pull-right">Add To Cart</button>
-            </li>
-        </ul>
+        <p v-if='list.length === 0'>No Available Products!</p>
+        <table class="table" v-if='list.length !== 0'>
+            <tr>
+                <th>Title</th>
+                <th>Price</th>
+                <th>Amount In Stock</th>
+                <th>Amount To Buy</th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tr v-if='product.amount !== 0' v-for="(product, index) in list">
+                <td>{{ product.title }}</td>
+                <td>{{ product.price }}</td>
+                <td>{{ product.amount }}</td>
+                <td> <input class="amount" type="number" id="quantity" min="1" v-model="amountToBuy[product.id]"></td>
+                <td> <button @click="addToCart(product, index)" class="btn btn-outline-success btn-xs pull-right">Add To Cart</button></td>
+                <td>{{ message[index] }}</td>
+            </tr>
+        </table>
+
     </div>
 </template>
 
 <script>
 
     import axios from 'axios';
-    import MyCart from './MyCart';
+    import App from './App';
     export default {
         data() {
             return {
                 list: [],
+                tempList: [],
                 product: {
                     id: '',
                     title: '',
@@ -38,9 +46,12 @@
                 },
                 amountToBuy: [],
                 message: [],
+                numberOfItems: 0,
             };
         },
-
+        components: {
+            app: App
+        },
 
         created() {
             this.fetchProductList();
@@ -49,7 +60,14 @@
         methods: {
             fetchProductList() {
                 axios.get('api/products').then((res) => {
-                    this.list = res.data.product;
+                    this.tempList = res.data.product;
+                    for(let index in this.tempList)
+                    {
+                        if(this.tempList[index].amount !== 0)
+                        {
+                            this.list.push(this.tempList[index]);
+                        }
+                    }
                     console.log( this.list);
                 });
             },
@@ -69,6 +87,9 @@
                         }
                     });
                     this.amountToBuy[product.id] = '';
+                    this.numberOfItems++;
+                    localStorage.setItem('numberOfItems', "" + this.numberOfItems);
+                    console.log(this.numberOfItems);
                 }
                 else {
                     this.message[index] = 'Not Enough In Stock';
@@ -81,5 +102,10 @@
 </script>
 
 <style scoped>
-
+    .amount {
+        width: 60px;
+    }
+    .table {
+        width: 50%;
+    }
 </style>

@@ -21,12 +21,14 @@ class CartController extends Controller
             $response = [
                 'item'  => []
             ];
-            $cartsItems = Cart::all();
-
+           /* $cartsItems = Cart::all();
+            //error_log($cartsItems);
             foreach($cartsItems as $cartsItem)
             {
-                $productId = $cartsItem->productId;
+                $productId = $cartsItem->productid;
+                error_log($productId);
                 $product = DB::table('products')->select('id', 'title', 'price')->where('id', $productId)->get();
+
                 $amount = $cartsItem->amount;
 
                 $response['item'][] = [
@@ -36,7 +38,26 @@ class CartController extends Controller
                     'amount' => $amount
                 ];
 
-            }
+            }*/
+
+            $items = DB::table('products')->join('carts', 'carts.productid', '=', 'products.id')->select('products.id', 'products.title', 'products.price', 'carts.amount')->get();
+            $response['item'] =  $items;
+            /*foreach($items as $item)
+            {
+                error_log($response['item']);
+                $response['item'][] = [
+                    'id' => $item->id,
+                    'title' => $item->title,
+                    'price' => $item->price,
+                    'amount' => $item->amount
+                ];
+
+            }*/
+
+            
+
+
+
         } catch (Exception $e){
             $statusCode = 400;
         }finally{

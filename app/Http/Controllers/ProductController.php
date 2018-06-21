@@ -77,8 +77,8 @@ class ProductController extends Controller
             DB::table('products')->where('id', $productId)->update(['amount' => $curAmount]);
             $product = DB::table('products')->where('id', $productId)->get();
             $response['product'] = $product;
-            error_log($amountToBuy);
-            DB::table('carts')->insert(['productId' => $productId, 'amount' => $amountToBuy, 'userId' => 7]);
+            error_log($productId);
+            DB::table('carts')->insert(['productid' => $productId, 'amount' => $amountToBuy, 'userid' => 7]);
         }
         catch (Exception $e){
             $statusCode = 400;
