@@ -27,7 +27,7 @@
 <script>
 
     import axios from 'axios';
-    import App from './App';
+    import { EventBus } from '../event-bus';
     export default {
         data() {
             return {
@@ -48,9 +48,6 @@
                 message: [],
                 numberOfItems: 0,
             };
-        },
-        components: {
-            app: App
         },
 
         created() {
@@ -88,14 +85,12 @@
                     });
                     this.amountToBuy[product.id] = '';
                     this.numberOfItems++;
-                    localStorage.setItem('numberOfItems', "" + this.numberOfItems);
-                    console.log(this.numberOfItems);
+                    EventBus.$emit('numberOfItems', this.numberOfItems);
                 }
                 else {
                     this.message[index] = 'Not Enough In Stock';
                     console.log(this.message[index]);
                 }
-
             }
         }
     }

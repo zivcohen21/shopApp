@@ -1,16 +1,18 @@
 <template>
     <div>
         <p>
-            <router-link :to="{ name: 'productList' }">Home</router-link> |
-            <router-link :to="{ name: 'myCart' }">My Cart ({{ numberOfItems }})</router-link>
+            <router-link to="/" exact>Home</router-link> |
+            <router-link to="/mycart">My Cart ({{numberOfItems}})</router-link>
         </p>
 
         <div class="container">
-            <router-view></router-view>
+            <router-view :key="$route.fullPath"></router-view>
         </div>
     </div>
 </template>
 <script>
+    import axios from 'axios';
+    import { EventBus } from '../event-bus.js';
     export default {
         data()
         {
@@ -18,13 +20,27 @@
                 numberOfItems: 0
             };
         },
+
         created() {
-            this.fetchCartNum();
+            this.fetchCartList();
         },
+
+
         methods: {
-            fetchCartNum() {
-                this.numberOfItems = localStorage.getItem('numberOfItems');
+            fetchCartList() {
+                axios.get('api/mycart').then((res) => {
+                    //this.cartList = res.data.item;
+                    this.numberOfItems = res.data.item.length;
+                });
             },
+        },
+
+        mounted()
+        {
+            EventBus.$on('numberOfItems', num => {
+                this.numberOfItems ++;
+            });
         }
     }
+
 </script>

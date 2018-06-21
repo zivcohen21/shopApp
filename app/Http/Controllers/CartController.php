@@ -123,11 +123,29 @@ class CartController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Cart  $cart
+     * @param int $productId
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Cart $cart)
+    public function destroy($productId)
     {
-        //
+        try {
+            $statusCode = 200;
+            $response = [
+                'item' => $productId
+            ];
+            error_log($productId);
+            DB::table('carts')->where('productid', '=', $productId)->delete();
+
+        }
+        catch (Exception $e){
+            $statusCode = 400;
+        }
+        finally{
+            return Response::create($response, $statusCode);
+        }
+
+
+
+
     }
 }

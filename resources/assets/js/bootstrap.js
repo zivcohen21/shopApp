@@ -1,3 +1,4 @@
+import Vue from "vue/types/index";
 
 window._ = require('lodash');
 window.Popper = require('popper.js').default;

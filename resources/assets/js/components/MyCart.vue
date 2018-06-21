@@ -3,32 +3,21 @@
         <h1>My Cart</h1>
         <table class="table">
             <tr>
+                <th>Id</th>
                 <th>Title</th>
                 <th>Price</th>
                 <th>Amount</th>
+                <th></th>
             </tr>
-            <tr v-for="(product, index) in cartList">
+            <tr v-for="(product, index) in cartList" >
+                <td>{{ product.id }}</td>
                 <td>{{ product.title }}</td>
                 <td>{{ product.price }}</td>
-                <td> <input class="amount" type="number" id="quantity" min="1" v-model="product.amount"></td>
-                <td><button @click="changeAmount(product, index)" class="btn btn-danger btn-xs pull-right">Update Amount</button></td>
-                <td> <button @click="removeItem(product)" class="btn btn-danger btn-xs pull-right">Delete Item</button></td>
+                <td><input class="amount" type="number" id="quantity" min="1" v-model="product.amount"></td>
+                <td> <button @click="removeItem(product, index)" class="btn btn-danger btn-xs pull-right">Delete Item</button></td>
             </tr>
         </table>
         <p>Total Price: {{this.total}}</p>
-     <!--   <ul class="list-group">
-            <li v-if='cartList.length === 0'>Empty Cart</li>
-            <li v-if='product.amount !== 0' class="list-group-item" v-for="(product, index) in cartList">
-                {{ product.title }}
-                {{ product.price }}
-
-                &lt;!&ndash;{{ product.img }}&ndash;&gt;
-                <label for="quantity">Amount</label>
-
-
-                <button @click="removeItem(product)" class="btn btn-danger btn-xs pull-right">Delete Item</button>
-            </li>
-        </ul>-->
     </div>
 </template>
 
@@ -70,12 +59,16 @@
                     }
                 });
             },
-            removeItem(product) {
-                //axios.delete('api/mycart/');
+            removeItem(product, index) {
+                axios.delete('api/mycart/' + product.id).then((res) => {
+                    this.cartList.splice(index, 1);
+                    console.log(this.cartList);
+                });
             },
             changeAmount(product, index) {
-               /* axios.post('api/mycart', this.cartData).then((res) => {
-                });*/
+                axios.put('api/mycart', product).then((res) => {
+
+                });
             }
         }
     }
