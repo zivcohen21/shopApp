@@ -15643,7 +15643,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this.tempList = res.data.product;
                 for (var index in _this.tempList) {
                     if (_this.tempList[index].amount !== 0) {
-                        _this.message[index] = 'hi';
                         _this.list.push(_this.tempList[index]);
                         if (!_this.tempList[index].isincart) {
                             _this.btnTitle[index] = 'Add To Cart';

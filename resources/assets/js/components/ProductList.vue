@@ -66,7 +66,6 @@
                     {
                         if(this.tempList[index].amount !== 0)
                         {
-                            this.message[index] = 'hi';
                             this.list.push(this.tempList[index]);
                             if(!this.tempList[index].isincart)
                             {
