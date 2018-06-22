@@ -1,0 +1,46 @@
+-- Table: public.carts
+
+-- DROP TABLE public.carts;
+
+CREATE TABLE public.carts
+(
+    id integer NOT NULL DEFAULT nextval('carts_id_seq'::regclass),
+    created_at timestamp(0) without time zone,
+    updated_at timestamp(0) without time zone,
+    productid integer NOT NULL,
+    amount integer NOT NULL,
+    userid integer NOT NULL,
+    CONSTRAINT carts_pkey PRIMARY KEY (id)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.carts
+    OWNER to zivcohen;
+	
+	
+CREATE SEQUENCE public.carts_id_seq;
+
+CREATE SEQUENCE public.products_id_seq;
+
+CREATE TABLE public.products
+(
+    id integer NOT NULL DEFAULT nextval('products_id_seq'::regclass),
+    created_at timestamp(0) without time zone,
+    updated_at timestamp(0) without time zone,
+    title text COLLATE pg_catalog."default" NOT NULL,
+    price double precision NOT NULL,
+    img text COLLATE pg_catalog."default" NOT NULL,
+    amount integer NOT NULL,
+    isincart boolean NOT NULL DEFAULT false,
+    CONSTRAINT products_pkey PRIMARY KEY (id)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+
+

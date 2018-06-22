@@ -1,1 +1,1 @@
-web: php artisan serve
+web: php artisan serve --port=8080
