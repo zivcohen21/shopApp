@@ -1,1 +1,1 @@
-web: php artisan serve --port=8080
+web: vendor/bin/heroku-php-apache2 public/
