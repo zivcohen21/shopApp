@@ -22,7 +22,7 @@
                 <td>{{ message[index] }}</td>
             </tr>
         </table>
-        <p>Total Price: {{this.total}}</p>
+        <p>Total Price: {{total}}</p>
     </div>
 </template>
 
@@ -33,7 +33,6 @@
     export default {
         data() {
             return {
-                list: [],
                 item: {
                     id: '',
                     title: '',
@@ -69,14 +68,20 @@
             },
             removeItem(item, index) {
                 axios.delete('api/mycart/' + item.id).then((res) => {
+                    this.total -= (parseInt(item.price) * this.currAmount[index]);
                     this.cartList.splice(index, 1);
-                    this.total -= parseInt(item.price) * item.amount;
+                    this.currAmount.splice(index, 1);
+                    this.message.splice(index, 1);
                     EventBus.$emit('numberOfItems', 0);
                 });
             },
             changeAmount(item, index) {
                 if(item.amount <= item.maxAmount)
                 {
+                    let difAmount = this.currAmount[index] - item.amount;
+                    this.currAmount[index] = item.amount;
+                    console.log(this.currAmount[index] );
+                    this.total -= parseInt(item.price) * difAmount;
                     axios.put('api/mycart/' + item.id, item).then((res) => {
 
                     });

@@ -66,6 +66,7 @@
                     {
                         if(this.tempList[index].amount !== 0)
                         {
+                            this.message[index] = 'hi';
                             this.list.push(this.tempList[index]);
                             if(!this.tempList[index].isincart)
                             {
@@ -104,6 +105,7 @@
                 }
                 else {
                     this.message[index] = 'Not Enough In Stock';
+                    this.amountToBuy[product.id] = '';
                     console.log(this.message[index]);
                 }
             }

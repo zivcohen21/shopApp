@@ -15643,6 +15643,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this.tempList = res.data.product;
                 for (var index in _this.tempList) {
                     if (_this.tempList[index].amount !== 0) {
+                        _this.message[index] = 'hi';
                         _this.list.push(_this.tempList[index]);
                         if (!_this.tempList[index].isincart) {
                             _this.btnTitle[index] = 'Add To Cart';
@@ -15675,6 +15676,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 __WEBPACK_IMPORTED_MODULE_1__event_bus__["a" /* EventBus */].$emit('numberOfItems', 1);
             } else {
                 this.message[index] = 'Not Enough In Stock';
+                this.amountToBuy[product.id] = '';
                 console.log(this.message[index]);
             }
         }
@@ -16826,7 +16828,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            list: [],
             item: {
                 id: '',
                 title: '',
@@ -16864,13 +16865,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this2 = this;
 
             __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('api/mycart/' + item.id).then(function (res) {
+                _this2.total -= parseInt(item.price) * _this2.currAmount[index];
                 _this2.cartList.splice(index, 1);
-                _this2.total -= parseInt(item.price) * item.amount;
+                _this2.currAmount.splice(index, 1);
+                _this2.message.splice(index, 1);
                 __WEBPACK_IMPORTED_MODULE_1__event_bus__["a" /* EventBus */].$emit('numberOfItems', 0);
             });
         },
         changeAmount: function changeAmount(item, index) {
             if (item.amount <= item.maxAmount) {
+                var difAmount = this.currAmount[index] - item.amount;
+                this.currAmount[index] = item.amount;
+                console.log(this.currAmount[index]);
+                this.total -= parseInt(item.price) * difAmount;
                 __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('api/mycart/' + item.id, item).then(function (res) {});
             } else {
                 this.message[index] = 'Not Enough In Stock';
@@ -16968,7 +16975,7 @@ var render = function() {
       2
     ),
     _vm._v(" "),
-    _c("p", [_vm._v("Total Price: " + _vm._s(this.total))])
+    _c("p", [_vm._v("Total Price: " + _vm._s(_vm.total))])
   ])
 }
 var staticRenderFns = [

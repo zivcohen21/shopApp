@@ -21,44 +21,11 @@ class CartController extends Controller
             $response = [
                 'item'  => []
             ];
-           /* $cartsItems = Cart::all();
-            //error_log($cartsItems);
-            foreach($cartsItems as $cartsItem)
-            {
-                $productId = $cartsItem->productid;
-                error_log($productId);
-                $product = DB::table('products')->select('id', 'title', 'price')->where('id', $productId)->get();
-
-                $amount = $cartsItem->amount;
-
-                $response['item'][] = [
-                    'id' => $product[0]->id,
-                    'title' => $product[0]->title,
-                    'price' => $product[0]->price,
-                    'amount' => $amount
-                ];
-
-            }*/
 
             $items = DB::table('products')->
             join('carts', 'carts.productid', '=', 'products.id')->
             select('products.id', 'products.title', 'products.price', 'carts.amount', 'products.amount as maxAmount')->get();
             $response['item'] =  $items;
-            /*foreach($items as $item)
-            {
-                error_log($response['item']);
-                $response['item'][] = [
-                    'id' => $item->id,
-                    'title' => $item->title,
-                    'price' => $item->price,
-                    'amount' => $item->amount
-                ];
-
-            }*/
-
-            
-
-
 
         } catch (Exception $e){
             $statusCode = 400;
@@ -123,11 +90,13 @@ class CartController extends Controller
 
             $statusCode = 200;
             $response = [
-                'item' => $cart
+                'item' => []
             ];
             error_log($request);
-            error_log($cart);
-
+            $newAmount = $request->amount;
+            $productId = $request->id;
+            error_log($newAmount);
+            DB::table('carts')->where('productid', '=', $productId)->update(['amount'=> $newAmount]);
         }
         catch (Exception $e){
             $statusCode = 400;
