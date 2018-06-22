@@ -20,6 +20,7 @@ class CreateProductsTable extends Migration
             $table->float('price');
             $table->text('img');
             $table->integer('amount');
+            $table->boolean('isincart')->default(false);
         });
     }
 

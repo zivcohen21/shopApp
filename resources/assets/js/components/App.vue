@@ -38,7 +38,15 @@
         mounted()
         {
             EventBus.$on('numberOfItems', num => {
-                this.numberOfItems ++;
+                if(num === 1)
+                {
+                    this.numberOfItems++;
+                }
+                else if(num === 0 && this.numberOfItems > 0)
+                {
+                    this.numberOfItems--;
+                }
+
             });
         }
     }

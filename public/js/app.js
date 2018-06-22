@@ -15394,7 +15394,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         var _this2 = this;
 
         __WEBPACK_IMPORTED_MODULE_1__event_bus_js__["a" /* EventBus */].$on('numberOfItems', function (num) {
-            _this2.numberOfItems++;
+            if (num === 1) {
+                _this2.numberOfItems++;
+            } else if (num === 0 && _this2.numberOfItems > 0) {
+                _this2.numberOfItems--;
+            }
         });
     }
 });
@@ -15597,6 +15601,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -15611,7 +15616,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 title: '',
                 price: '',
                 img: '',
-                amount: 0
+                amount: 0,
+                isincart: false
             },
             cartData: {
                 productId: '',
@@ -15619,7 +15625,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             },
             amountToBuy: [],
             message: [],
-            numberOfItems: 0
+            numberOfItems: 0,
+            isAdded: [],
+            btnTitle: []
         };
     },
     created: function created() {
@@ -15636,6 +15644,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 for (var index in _this.tempList) {
                     if (_this.tempList[index].amount !== 0) {
                         _this.list.push(_this.tempList[index]);
+                        if (!_this.tempList[index].isincart) {
+                            _this.btnTitle[index] = 'Add To Cart';
+                        } else {
+                            _this.btnTitle[index] = 'In Cart';
+                        }
                     }
                 }
                 console.log(_this.list);
@@ -15655,9 +15668,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         _this2.list[index].amount = 0;
                     }
                 });
+                this.isAdded[index] = true;
+                this.btnTitle[index] = 'In Cart';
                 this.amountToBuy[product.id] = '';
                 this.numberOfItems++;
-                __WEBPACK_IMPORTED_MODULE_1__event_bus__["a" /* EventBus */].$emit('numberOfItems', this.numberOfItems);
+                __WEBPACK_IMPORTED_MODULE_1__event_bus__["a" /* EventBus */].$emit('numberOfItems', 1);
             } else {
                 this.message[index] = 'Not Enough In Stock';
                 console.log(this.message[index]);
@@ -16590,7 +16605,12 @@ var render = function() {
                           }
                         ],
                         staticClass: "amount",
-                        attrs: { type: "number", id: "quantity", min: "1" },
+                        attrs: {
+                          type: "number",
+                          id: "quantity",
+                          min: "1",
+                          disabled: product.isincart || _vm.isAdded[index]
+                        },
                         domProps: { value: _vm.amountToBuy[product.id] },
                         on: {
                           input: function($event) {
@@ -16613,13 +16633,22 @@ var render = function() {
                         {
                           staticClass:
                             "btn btn-outline-success btn-xs pull-right",
+                          attrs: {
+                            disabled: product.isincart || _vm.isAdded[index]
+                          },
                           on: {
                             click: function($event) {
                               _vm.addToCart(product, index)
                             }
                           }
                         },
-                        [_vm._v("Add To Cart")]
+                        [
+                          _vm._v(
+                            "\n                " +
+                              _vm._s(_vm.btnTitle[index]) +
+                              "\n            "
+                          )
+                        ]
                       )
                     ]),
                     _vm._v(" "),
@@ -16761,6 +16790,7 @@ exports.push([module.i, "\n.amount[data-v-7c84f9ba] {\n    width: 60px;\n}\n.tab
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__event_bus__ = __webpack_require__(55);
 //
 //
 //
@@ -16784,6 +16814,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+
 
 
 
@@ -16791,14 +16827,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             list: [],
-            product: {
+            item: {
                 id: '',
                 title: '',
                 price: '',
                 img: '',
-                amount: 0
+                amount: 0,
+                maxAmount: 0
             },
-            amountToBuy: [],
+            currAmount: [],
             message: [],
             cartList: [],
             total: 0
@@ -16818,20 +16855,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this.total = 0;
                 for (var index in _this.cartList) {
                     var item = _this.cartList[index];
+                    _this.currAmount[index] = item.amount;
                     _this.total += parseInt(item.price) * item.amount;
                 }
             });
         },
-        removeItem: function removeItem(product, index) {
+        removeItem: function removeItem(item, index) {
             var _this2 = this;
 
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('api/mycart/' + product.id).then(function (res) {
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('api/mycart/' + item.id).then(function (res) {
                 _this2.cartList.splice(index, 1);
-                console.log(_this2.cartList);
+                _this2.total -= parseInt(item.price) * item.amount;
+                __WEBPACK_IMPORTED_MODULE_1__event_bus__["a" /* EventBus */].$emit('numberOfItems', 0);
             });
         },
-        changeAmount: function changeAmount(product, index) {
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('api/mycart', product).then(function (res) {});
+        changeAmount: function changeAmount(item, index) {
+            if (item.amount <= item.maxAmount) {
+                __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('api/mycart/' + item.id, item).then(function (res) {});
+            } else {
+                this.message[index] = 'Not Enough In Stock';
+                console.log(this.message[index]);
+            }
         }
     }
 });
@@ -16853,13 +16897,15 @@ var render = function() {
       [
         _vm._m(0),
         _vm._v(" "),
-        _vm._l(_vm.cartList, function(product, index) {
+        _vm._l(_vm.cartList, function(item, index) {
           return _c("tr", [
-            _c("td", [_vm._v(_vm._s(product.id))]),
+            _c("td", [_vm._v(_vm._s(item.id))]),
             _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(product.title))]),
+            _c("td", [_vm._v(_vm._s(item.title))]),
             _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(product.price))]),
+            _c("td", [_vm._v(_vm._s(item.price))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(_vm.currAmount[index]))]),
             _vm._v(" "),
             _c("td", [
               _c("input", {
@@ -16867,19 +16913,19 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: product.amount,
-                    expression: "product.amount"
+                    value: item.amount,
+                    expression: "item.amount"
                   }
                 ],
                 staticClass: "amount",
                 attrs: { type: "number", id: "quantity", min: "1" },
-                domProps: { value: product.amount },
+                domProps: { value: item.amount },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.$set(product, "amount", $event.target.value)
+                    _vm.$set(item, "amount", $event.target.value)
                   }
                 }
               })
@@ -16889,16 +16935,33 @@ var render = function() {
               _c(
                 "button",
                 {
+                  staticClass: "btn btn-warning btn-xs pull-right",
+                  on: {
+                    click: function($event) {
+                      _vm.changeAmount(item, index)
+                    }
+                  }
+                },
+                [_vm._v("Change Amount")]
+              )
+            ]),
+            _vm._v(" "),
+            _c("td", [
+              _c(
+                "button",
+                {
                   staticClass: "btn btn-danger btn-xs pull-right",
                   on: {
                     click: function($event) {
-                      _vm.removeItem(product, index)
+                      _vm.removeItem(item, index)
                     }
                   }
                 },
                 [_vm._v("Delete Item")]
               )
-            ])
+            ]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(_vm.message[index]))])
           ])
         })
       ],
@@ -16921,6 +16984,10 @@ var staticRenderFns = [
       _c("th", [_vm._v("Price")]),
       _vm._v(" "),
       _c("th", [_vm._v("Amount")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Change Amount")]),
+      _vm._v(" "),
+      _c("th"),
       _vm._v(" "),
       _c("th")
     ])

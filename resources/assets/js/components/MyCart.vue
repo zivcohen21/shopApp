@@ -7,14 +7,19 @@
                 <th>Title</th>
                 <th>Price</th>
                 <th>Amount</th>
+                <th>Change Amount</th>
+                <th></th>
                 <th></th>
             </tr>
-            <tr v-for="(product, index) in cartList" >
-                <td>{{ product.id }}</td>
-                <td>{{ product.title }}</td>
-                <td>{{ product.price }}</td>
-                <td><input class="amount" type="number" id="quantity" min="1" v-model="product.amount"></td>
-                <td> <button @click="removeItem(product, index)" class="btn btn-danger btn-xs pull-right">Delete Item</button></td>
+            <tr v-for="(item, index) in cartList" >
+                <td>{{ item.id }}</td>
+                <td>{{ item.title }}</td>
+                <td>{{ item.price }}</td>
+                <td>{{ currAmount[index] }}</td>
+                <td><input class="amount" type="number" id="quantity" min="1" v-model="item.amount"></td>
+                <td><button @click="changeAmount(item, index)" class="btn btn-warning btn-xs pull-right">Change Amount</button></td>
+                <td><button @click="removeItem(item, index)" class="btn btn-danger btn-xs pull-right">Delete Item</button></td>
+                <td>{{ message[index] }}</td>
             </tr>
         </table>
         <p>Total Price: {{this.total}}</p>
@@ -24,18 +29,20 @@
 <script>
 
     import axios from 'axios';
+    import { EventBus } from '../event-bus';
     export default {
         data() {
             return {
                 list: [],
-                product: {
+                item: {
                     id: '',
                     title: '',
                     price: '',
                     img: '',
-                    amount: 0
+                    amount: 0,
+                    maxAmount: 0
                 },
-                amountToBuy: [],
+                currAmount: [],
                 message: [],
                 cartList: [],
                 total: 0,
@@ -55,20 +62,29 @@
                     for(let index in this.cartList)
                     {
                         let item = this.cartList[index];
-                        this.total += (parseInt(item.price) * item.amount);
+                        this.currAmount[index] = item.amount;
+                        this.total += parseInt(item.price) * item.amount;
                     }
                 });
             },
-            removeItem(product, index) {
-                axios.delete('api/mycart/' + product.id).then((res) => {
+            removeItem(item, index) {
+                axios.delete('api/mycart/' + item.id).then((res) => {
                     this.cartList.splice(index, 1);
-                    console.log(this.cartList);
+                    this.total -= parseInt(item.price) * item.amount;
+                    EventBus.$emit('numberOfItems', 0);
                 });
             },
-            changeAmount(product, index) {
-                axios.put('api/mycart', product).then((res) => {
+            changeAmount(item, index) {
+                if(item.amount <= item.maxAmount)
+                {
+                    axios.put('api/mycart/' + item.id, item).then((res) => {
 
-                });
+                    });
+                }
+                else {
+                    this.message[index] = 'Not Enough In Stock';
+                    console.log(this.message[index]);
+                }
             }
         }
     }

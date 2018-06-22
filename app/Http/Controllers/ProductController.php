@@ -33,7 +33,9 @@ class ProductController extends Controller
                     'title' => $product->title,
                     'price' => $product->price,
                     'img' => $product->img,
-                    'amount' => $product->amount
+                    'amount' => $product->amount,
+                    'isincart' => $product->isincart,
+
                 ];
             }
             //error_log($products);
@@ -74,7 +76,7 @@ class ProductController extends Controller
             $curAmount = DB::table('products')->where('id', $productId)->value('amount');
             $curAmount -= $amountToBuy;
             $product = null;
-            DB::table('products')->where('id', $productId)->update(['amount' => $curAmount]);
+            DB::table('products')->where('id', $productId)->update(['amount' => $curAmount, 'isincart' => true]);
             $product = DB::table('products')->where('id', $productId)->get();
             $response['product'] = $product;
             error_log($productId);

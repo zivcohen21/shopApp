@@ -15,12 +15,13 @@
                 <td>{{ product.title }}</td>
                 <td>{{ product.price }}</td>
                 <td>{{ product.amount }}</td>
-                <td> <input class="amount" type="number" id="quantity" min="1" v-model="amountToBuy[product.id]"></td>
-                <td> <button @click="addToCart(product, index)" class="btn btn-outline-success btn-xs pull-right">Add To Cart</button></td>
+                <td> <input class="amount" type="number" id="quantity" min="1" v-model="amountToBuy[product.id]" :disabled="product.isincart || isAdded[index]"></td>
+                <td> <button @click="addToCart(product, index)" :disabled="product.isincart || isAdded[index]" class="btn btn-outline-success btn-xs pull-right">
+                    {{ btnTitle[index] }}
+                </button></td>
                 <td>{{ message[index] }}</td>
             </tr>
         </table>
-
     </div>
 </template>
 
@@ -38,7 +39,8 @@
                     title: '',
                     price: '',
                     img: '',
-                    amount: 0
+                    amount: 0,
+                    isincart: false
                 },
                 cartData: {
                     productId: '',
@@ -47,6 +49,8 @@
                 amountToBuy: [],
                 message: [],
                 numberOfItems: 0,
+                isAdded: [],
+                btnTitle: []
             };
         },
 
@@ -63,6 +67,15 @@
                         if(this.tempList[index].amount !== 0)
                         {
                             this.list.push(this.tempList[index]);
+                            if(!this.tempList[index].isincart)
+                            {
+                                this.btnTitle[index] = 'Add To Cart';
+                            }
+                            else
+                            {
+                                this.btnTitle[index] = 'In Cart';
+                            }
+
                         }
                     }
                     console.log( this.list);
@@ -83,9 +96,11 @@
                             this.list[index].amount = 0;
                         }
                     });
+                    this.isAdded[index] = true;
+                    this.btnTitle[index] = 'In Cart';
                     this.amountToBuy[product.id] = '';
                     this.numberOfItems++;
-                    EventBus.$emit('numberOfItems', this.numberOfItems);
+                    EventBus.$emit('numberOfItems', 1);
                 }
                 else {
                     this.message[index] = 'Not Enough In Stock';

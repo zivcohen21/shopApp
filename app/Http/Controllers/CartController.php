@@ -40,7 +40,9 @@ class CartController extends Controller
 
             }*/
 
-            $items = DB::table('products')->join('carts', 'carts.productid', '=', 'products.id')->select('products.id', 'products.title', 'products.price', 'carts.amount')->get();
+            $items = DB::table('products')->
+            join('carts', 'carts.productid', '=', 'products.id')->
+            select('products.id', 'products.title', 'products.price', 'carts.amount', 'products.amount as maxAmount')->get();
             $response['item'] =  $items;
             /*foreach($items as $item)
             {
@@ -111,13 +113,28 @@ class CartController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @param  \App\Cart  $cart
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Cart $cart)
     {
-        //
+        try {
+
+            $statusCode = 200;
+            $response = [
+                'item' => $cart
+            ];
+            error_log($request);
+            error_log($cart);
+
+        }
+        catch (Exception $e){
+            $statusCode = 400;
+        }
+        finally{
+            return Response::create($response, $statusCode);
+        }
     }
 
     /**
@@ -134,7 +151,11 @@ class CartController extends Controller
                 'item' => $productId
             ];
             error_log($productId);
+            $amount = DB::table('carts')->where('productid', '=', $productId)->select('amount')->get();
+            $amount = $amount[0]->amount;
             DB::table('carts')->where('productid', '=', $productId)->delete();
+            DB::table('products')->where('id', $productId)->increment('amount', $amount, ['isincart' => false]);
+
 
         }
         catch (Exception $e){
@@ -143,9 +164,5 @@ class CartController extends Controller
         finally{
             return Response::create($response, $statusCode);
         }
-
-
-
-
     }
 }
