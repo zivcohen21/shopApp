@@ -8,7 +8,7 @@
                     <th></th>
                     <th></th>
                     <th>Price</th>
-                    <th>Amount In Stock</th>
+                    <th>In Stock</th>
                     <th>Amount To Buy</th>
                     <th></th>
                     <th></th>

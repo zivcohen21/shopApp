@@ -16702,7 +16702,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Price")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Amount In Stock")]),
+        _c("th", [_vm._v("In Stock")]),
         _vm._v(" "),
         _c("th", [_vm._v("Amount To Buy")]),
         _vm._v(" "),
