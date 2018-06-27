@@ -6,7 +6,7 @@
             <thead>
                 <tr>
                     <th></th>
-                    <th>Title</th>
+                    <th></th>
                     <th>Price</th>
                     <th>Amount In Stock</th>
                     <th>Amount To Buy</th>
