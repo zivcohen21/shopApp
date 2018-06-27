@@ -2,25 +2,27 @@
     <div class='row'>
         <h1>My Cart</h1>
         <table class="table">
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Price</th>
-                <th>Amount</th>
-                <th>Change Amount</th>
-                <th></th>
-                <th></th>
-            </tr>
-            <tr v-for="(item, index) in cartList" >
-                <td>{{ item.id }}</td>
-                <td>{{ item.title }}</td>
-                <td>{{ item.price }}</td>
-                <td>{{ currAmount[index] }}</td>
-                <td><input class="amount" type="number" id="quantity" min="1" v-model="item.amount"></td>
-                <td><button @click="changeAmount(item, index)" class="btn btn-warning btn-xs pull-right">Change Amount</button></td>
-                <td><button @click="removeItem(item, index)" class="btn btn-danger btn-xs pull-right">Delete Item</button></td>
-                <td>{{ message[index] }}</td>
-            </tr>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Price</th>
+                    <th>Amount</th>
+                    <th>Change Amount</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item, index) in cartList" >
+                    <td>{{ item.title }}</td>
+                    <td>{{ item.price }}</td>
+                    <td>{{ currAmount[index] }}</td>
+                    <td><input class="amount" type="number" id="quantity" min="1" v-model="item.amount"></td>
+                    <td><button @click="changeAmount(item, index)" class="btn btn-warning btn-xs pull-right">Change Amount</button></td>
+                    <td><button @click="removeItem(item, index)" class="btn btn-danger btn-xs pull-right">Delete Item</button></td>
+                    <td>{{ message[index] }}</td>
+                </tr>
+            </tbody>
         </table>
         <p>Total Price: {{total}}</p>
     </div>
@@ -100,6 +102,6 @@
         width: 60px;
     }
     .table {
-        width: 50%;
+        width: 70%;
     }
 </style>
