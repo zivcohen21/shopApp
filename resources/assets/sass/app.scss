@@ -1,3 +1,105 @@
+.amount {
+  width: 50%;
+}
+h1 {
+  text-align: center;
+}
+
+.btn {
+  width: 70%;
+  margin: 10%;
+}
+
+.wrapper-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.col-3 {
+  margin-bottom: 5%;
+}
+
+.row {
+  margin: auto;
+}
+
+.card {
+  font-weight: bold;
+  font-family: monospace;
+}
+
+@media (max-width: 576px) {
+  .amount {
+    width: 20%;
+  }
+
+  .card {
+    width: 120px;
+    font-size: small;
+  }
+
+  .title-part {
+    padding: 1rem;
+    height: 55px;
+  }
+
+  .card-title {
+    margin-bottom: 0;
+    font-size: x-small;
+  }
+
+  .img-fluid {
+    width: 100px;
+    margin: auto;
+  }
+
+  .btn {
+    font-size: x-small;
+  }
+}
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) {
+
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) {
+  .amount {
+    width: 25%;
+  }
+
+  .table {
+    width: 80%;
+    margin: auto;
+  }
+
+  .row {
+    width: 85%;
+    margin: auto;
+  }
+
+  .card {
+    width: 18rem;
+    font-size: medium;
+    margin-bottom: 15%;
+  }
+
+  .card-title {
+    font-size: xx-large;
+  }
+
+  .img-fluid {
+    width: 180px;
+    margin: auto;
+  }
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {
+
+}
 
 // Fonts
 @import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
@@ -5,8 +107,8 @@
 // Variables
 @import "variables";
 
-// Bootstrap
-@import '~bootstrap/scss/bootstrap';
+/*// Bootstrap
+@import '~bootstrap/scss/bootstrap';*/
 
 .navbar-laravel {
   background-color: #fff;

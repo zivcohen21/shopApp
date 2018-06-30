@@ -1,11 +1,11 @@
 <template>
-    <div>
+    <div class="container-fluid">
         <p>
             <router-link to="/" exact>Home</router-link> |
             <router-link to="/mycart">My Cart ({{numberOfItems}})</router-link>
         </p>
 
-        <div class="container">
+        <div>
             <router-view :key="$route.fullPath"></router-view>
         </div>
     </div>

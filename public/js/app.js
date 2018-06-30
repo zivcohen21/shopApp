@@ -16304,7 +16304,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
+  return _c("div", { staticClass: "container-fluid" }, [
     _c(
       "p",
       [
@@ -16317,12 +16317,7 @@ var render = function() {
       1
     ),
     _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "container" },
-      [_c("router-view", { key: _vm.$route.fullPath })],
-      1
-    )
+    _c("div", [_c("router-view", { key: _vm.$route.fullPath })], 1)
   ])
 }
 var staticRenderFns = []
@@ -16421,7 +16416,7 @@ exports = module.exports = __webpack_require__(13)(false);
 
 
 // module
-exports.push([module.i, "\n.amount[data-v-3236c206] {\n    width: 60px;\n}\n.table[data-v-3236c206] {\n    width: 70%;\n}\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/*  @import '../../../../public/css/app.css';*/\n", ""]);
 
 // exports
 
@@ -16468,6 +16463,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__event_bus__ = __webpack_require__(5);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -16591,128 +16611,123 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row" }, [
-    _c("h1", [_vm._v("Our Products")]),
-    _vm._v(" "),
-    _vm.list.length === 0
-      ? _c("p", [_vm._v("No Available Products!")])
-      : _vm._e(),
-    _vm._v(" "),
-    _vm.list.length !== 0
-      ? _c("table", { staticClass: "table table-striped" }, [
-          _vm._m(0),
-          _vm._v(" "),
-          _c(
-            "tbody",
-            _vm._l(_vm.list, function(product, index) {
-              return product.amount !== 0
-                ? _c("tr", [
-                    _c("td", [
-                      _c("img", {
-                        attrs: {
-                          src: product.img,
-                          width: "150px",
-                          height: "200px"
-                        }
-                      })
+    _c("div", { staticClass: "col" }, [
+      _c("h1", [_vm._v("Our Products")]),
+      _vm._v(" "),
+      _vm.list.length === 0
+        ? _c("p", [_vm._v("No Available Products!")])
+        : _vm._e(),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "row" },
+        _vm._l(_vm.list, function(product, index) {
+          return product.amount !== 0
+            ? _c("div", { staticClass: "col-auto" }, [
+                _c("div", { staticClass: "card" }, [
+                  _c("img", {
+                    staticClass: "card-img-top img-fluid",
+                    attrs: { src: product.img, alt: "Card image cap" }
+                  }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "card-body title-part" }, [
+                    _c("div", { staticClass: "card-title text-center" }, [
+                      _vm._v(_vm._s(product.title))
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "ul",
+                    {
+                      staticClass:
+                        "list-group list-group-flush font-weight-light"
+                    },
+                    [
+                      _c("li", { staticClass: "list-group-item" }, [
+                        _vm._v("Price: "),
+                        _c("span", { staticClass: "badge badge-primary" }, [
+                          _vm._v(_vm._s(product.price) + "$")
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("li", { staticClass: "list-group-item" }, [
+                        _vm._v("In Stock:  "),
+                        _c("span", { staticClass: "badge badge-secondary" }, [
+                          _vm._v("-" + _vm._s(product.amount) + "-")
+                        ])
+                      ])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "card-body font-weight-light" }, [
+                    _c("label", { attrs: { for: "quantity" } }, [
+                      _vm._v("Amount To Buy: ")
                     ]),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(product.title))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(product.price))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(product.amount))]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.amountToBuy[product.id],
-                            expression: "amountToBuy[product.id]"
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.amountToBuy[product.id],
+                          expression: "amountToBuy[product.id]"
+                        }
+                      ],
+                      staticClass: "amount",
+                      attrs: {
+                        type: "number",
+                        id: "quantity",
+                        min: "1",
+                        disabled: product.isincart || _vm.isAdded[index]
+                      },
+                      domProps: { value: _vm.amountToBuy[product.id] },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
                           }
-                        ],
-                        staticClass: "amount",
+                          _vm.$set(
+                            _vm.amountToBuy,
+                            product.id,
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "wrapper-btn" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-success",
                         attrs: {
-                          type: "number",
-                          id: "quantity",
-                          min: "1",
                           disabled: product.isincart || _vm.isAdded[index]
                         },
-                        domProps: { value: _vm.amountToBuy[product.id] },
                         on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.amountToBuy,
-                              product.id,
-                              $event.target.value
-                            )
+                          click: function($event) {
+                            _vm.addToCart(product, index)
                           }
                         }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c(
-                        "button",
-                        {
-                          staticClass:
-                            "btn btn-outline-success btn-xs pull-right",
-                          attrs: {
-                            disabled: product.isincart || _vm.isAdded[index]
-                          },
-                          on: {
-                            click: function($event) {
-                              _vm.addToCart(product, index)
-                            }
-                          }
-                        },
-                        [
-                          _vm._v(
-                            "\n                    " +
-                              _vm._s(_vm.btnTitle[index]) +
-                              "\n                "
-                          )
-                        ]
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(_vm.message[index]))])
+                      },
+                      [
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(_vm.btnTitle[index]) +
+                            "\n                        "
+                        )
+                      ]
+                    )
                   ])
-                : _vm._e()
-            })
-          )
-        ])
-      : _vm._e()
+                ])
+              ])
+            : _vm._e()
+        })
+      )
+    ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th"),
-        _vm._v(" "),
-        _c("th"),
-        _vm._v(" "),
-        _c("th", [_vm._v("Price")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("In Stock")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Amount To Buy")]),
-        _vm._v(" "),
-        _c("th"),
-        _vm._v(" "),
-        _c("th")
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -16808,7 +16823,7 @@ exports = module.exports = __webpack_require__(13)(false);
 
 
 // module
-exports.push([module.i, "\n.amount[data-v-7c84f9ba] {\n    width: 60px;\n}\n.table[data-v-7c84f9ba] {\n    width: 70%;\n}\n", ""]);
+exports.push([module.i, "\n.amount[data-v-7c84f9ba] {\n        width: 60px;\n}\n/*    .table {\n        width: 70%;\n    }*/\n", ""]);
 
 // exports
 

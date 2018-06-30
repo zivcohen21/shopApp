@@ -101,7 +101,7 @@
     .amount {
         width: 60px;
     }
-    .table {
+/*    .table {
         width: 70%;
-    }
+    }*/
 </style>

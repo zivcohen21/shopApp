@@ -1,7 +1,7 @@
 INSERT INTO public.products(
 	created_at, updated_at, title, price, img, amount)
 	VALUES (now(), now(), 'prod1', 20, '', 20);
-	
+
 INSERT INTO public.products(
 created_at, updated_at, title, price, img, amount)
 VALUES (now(), now(), 'prod2', 50, '', 10);

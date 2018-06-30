@@ -1,34 +1,59 @@
 <template>
     <div class='row'>
-        <h1>Our Products</h1>
-        <p v-if='list.length === 0'>No Available Products!</p>
-        <table class="table table-striped" v-if='list.length !== 0'>
-            <thead>
+        <div class="col">
+            <h1>Our Products</h1>
+            <p v-if='list.length === 0'>No Available Products!</p>
+           <!-- <table class="table table-hover" v-if='list.length !== 0'>
+                <thead>
                 <tr>
-                    <th></th>
-                    <th></th>
-                    <th>Price</th>
-                    <th>In Stock</th>
-                    <th>Amount To Buy</th>
-                    <th></th>
-                    <th></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col">Price</th>
+                    <th scope="col">In Stock</th>
+                    <th scope="col">Amount To Buy</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
                 <tr v-if='product.amount !== 0' v-for="(product, index) in list">
-                    <td><img :src="product.img" width="150px" height="200px"></td>
-                    <td>{{ product.title }}</td>
-                    <td>{{ product.price }}</td>
-                    <td>{{ product.amount }}</td>
-                    <td> <input class="amount" type="number" id="quantity" min="1" v-model="amountToBuy[product.id]" :disabled="product.isincart || isAdded[index]"></td>
-                    <td> <button @click="addToCart(product, index)" :disabled="product.isincart || isAdded[index]" class="btn btn-outline-success btn-xs pull-right">
+                    <td class="align-middle text-center"><img :src="product.img" class="img-fluid" width="180px"></td>
+                    <td class="align-middle">{{ product.title }}</td>
+                    <td class="align-middle">{{ product.price }}</td>
+                    <td class="align-middle">{{ product.amount }}</td>
+                    <td class="align-middle"> <input class="amount" type="number" id="quantity" min="1" v-model="amountToBuy[product.id]" :disabled="product.isincart || isAdded[index]"></td>
+                    <td class="align-middle"> <button @click="addToCart(product, index)" :disabled="product.isincart || isAdded[index]" class="btn btn-success">
                         {{ btnTitle[index] }}
                     </button></td>
                     <td>{{ message[index] }}</td>
                 </tr>
-            </tbody>
+                </tbody>
 
-        </table>
+            </table>-->
+            <div class="row">
+                <div class="col-auto" v-if='product.amount !== 0' v-for="(product, index) in list">
+                    <div class="card">
+                        <img class="card-img-top img-fluid" :src="product.img" alt="Card image cap">
+                        <div class="card-body title-part">
+                            <div class="card-title text-center">{{ product.title }}</div>
+                        </div>
+                        <ul class="list-group list-group-flush font-weight-light">
+                            <li class="list-group-item">Price: <span class="badge badge-primary">{{ product.price }}$</span></li>
+                            <li class="list-group-item">In Stock:  <span class="badge badge-secondary">-{{ product.amount }}-</span></li>
+                        </ul>
+                        <div class="card-body font-weight-light">
+                            <label for="quantity">Amount To Buy: </label>
+                            <input class="amount" type="number" id="quantity" min="1" v-model="amountToBuy[product.id]" :disabled="product.isincart || isAdded[index]">
+                        </div>
+                        <div class="wrapper-btn">
+                            <button @click="addToCart(product, index)" :disabled="product.isincart || isAdded[index]" class="btn btn-success">
+                                {{ btnTitle[index] }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -120,10 +145,6 @@
 </script>
 
 <style scoped>
-    .amount {
-        width: 60px;
-    }
-    .table {
-        width: 70%;
-    }
+  /*  @import '../../../../public/css/app.css';*/
 </style>
+
