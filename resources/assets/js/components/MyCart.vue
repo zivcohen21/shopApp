@@ -1,30 +1,34 @@
 <template>
     <div class='row'>
-        <h1>My Cart</h1>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Price</th>
-                    <th>Amount</th>
-                    <th>Change Amount</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="(item, index) in cartList" >
-                    <td>{{ item.title }}</td>
-                    <td>{{ item.price }}</td>
-                    <td>{{ currAmount[index] }}</td>
-                    <td><input class="amount" type="number" id="quantity" min="1" v-model="item.amount"></td>
-                    <td><button @click="changeAmount(item, index)" class="btn btn-warning btn-xs pull-right">Change Amount</button></td>
-                    <td><button @click="removeItem(item, index)" class="btn btn-danger btn-xs pull-right">Delete Item</button></td>
-                    <td>{{ message[index] }}</td>
-                </tr>
-            </tbody>
-        </table>
-        <p>Total Price: {{total}}</p>
+        <div class="col">
+            <h1>My Cart</h1>
+            <table class="table table-striped">
+                <thead>
+                    <tr class="text-center">
+                        <th scope="col">Title</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Change Amount</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(item, index) in cartList" >
+                        <td class="align-middle text-center">{{ item.title }}</td>
+                        <td class="align-middle text-center">{{ item.price }}</td>
+                        <td class="align-middle text-center">{{ currAmount[index] }}</td>
+                        <td class="align-middle text-center"><input class="amount form-control" type="number" id="quantity" min="1" v-model="item.amount">
+                           <p> {{ message[index] }}</p>
+                        </td>
+                        <td class="align-middle text-center"><button @click="changeAmount(item, index)" class="btn btn-warning">Change Amount</button></td>
+                        <td class="align-middle text-center"><button @click="removeItem(item, index)" class="btn btn-danger">Delete Item</button></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>Total Price: {{total}}</p>
+        </div>
     </div>
 </template>
 
@@ -65,6 +69,7 @@
                         let item = this.cartList[index];
                         this.currAmount[index] = item.amount;
                         this.total += parseInt(item.price) * item.amount;
+                        this.message[index] = '';
                     }
                 });
             },
@@ -89,6 +94,8 @@
                     });
                 }
                 else {
+                    this.total += 1;
+                    this.total -= 1;
                     this.message[index] = 'Not Enough In Stock';
                     console.log(this.message[index]);
                 }
@@ -98,10 +105,5 @@
 </script>
 
 <style scoped>
-    .amount {
-        width: 60px;
-    }
-/*    .table {
-        width: 70%;
-    }*/
+
 </style>

@@ -37,13 +37,13 @@
                         <div class="card-body title-part">
                             <div class="card-title text-center">{{ product.title }}</div>
                         </div>
-                        <ul class="list-group list-group-flush font-weight-light">
+                        <ul class="list-group list-group-flush font-weight-light price-amount">
                             <li class="list-group-item">Price: <span class="badge badge-primary">{{ product.price }}$</span></li>
                             <li class="list-group-item">In Stock:  <span class="badge badge-secondary">-{{ product.amount }}-</span></li>
                         </ul>
                         <div class="card-body font-weight-light">
                             <label for="quantity">Amount To Buy: </label>
-                            <input class="amount" type="number" id="quantity" min="1" v-model="amountToBuy[product.id]" :disabled="product.isincart || isAdded[index]">
+                            <input class="amount form-control" type="number" id="quantity" min="1" v-model="amountToBuy[index]" :disabled="product.isincart || isAdded[index]">
                         </div>
                         <div class="wrapper-btn">
                             <button @click="addToCart(product, index)" :disabled="product.isincart || isAdded[index]" class="btn btn-success">
@@ -107,7 +107,6 @@
                             {
                                 this.btnTitle[index] = 'In Cart';
                             }
-
                         }
                     }
                     console.log( this.list);
@@ -139,12 +138,12 @@
                     this.amountToBuy[product.id] = '';
                     console.log(this.message[index]);
                 }
-            }
+            },
         }
     }
 </script>
 
 <style scoped>
-  /*  @import '../../../../public/css/app.css';*/
+
 </style>
 

@@ -15,6 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/mycart', function () {
+    return view('welcome');
+});
+
 Route::prefix('api')->group(function() {
     Route::resource('products', 'ProductController');
     Route::resource('mycart', 'CartController');

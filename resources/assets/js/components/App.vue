@@ -1,10 +1,11 @@
 <template>
     <div class="container-fluid">
-        <p>
-            <router-link to="/" exact>Home</router-link> |
-            <router-link to="/mycart">My Cart ({{numberOfItems}})</router-link>
-        </p>
-
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page"><a href="/mycart"><i class="fas fa-shopping-cart fa"></i>({{numberOfItems}})</a></li>
+            </ol>
+        </nav>
         <div>
             <router-view :key="$route.fullPath"></router-view>
         </div>

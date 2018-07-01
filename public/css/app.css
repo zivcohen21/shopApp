@@ -1,9 +1,8 @@
-@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);.amount {
-  width: 50%;
-}
-
-h1 {
+@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);h1 {
   text-align: center;
+  color: #261e5e;
+  font-weight: bold;
+  font-family: monospace;
 }
 
 .btn {
@@ -34,26 +33,34 @@ h1 {
 .card {
   font-weight: bold;
   font-family: monospace;
+  color: #1c1740;
 }
 
 @media (max-width: 576px) {
+  h1 {
+    font-size: 1.35rem;
+  }
+
   .amount {
-    width: 20%;
+    width: 60%;
+    font-size: 0.6rem;
+    display: inline-block;
+    padding: 0;
   }
 
   .card {
     width: 120px;
-    font-size: small;
+    font-size: x-small;
+    margin-bottom: 8%;
   }
 
   .title-part {
     padding: 1rem;
-    height: 55px;
   }
 
   .card-title {
-    margin-bottom: 0;
     font-size: x-small;
+    margin: 0.5rem;
   }
 
   .img-fluid {
@@ -63,12 +70,41 @@ h1 {
 
   .btn {
     font-size: x-small;
+    padding: 0;
+  }
+
+  .list-group-item {
+    padding: .3rem 0.3rem;
+  }
+
+  .card-body {
+    padding: .2rem;
+  }
+
+  .table {
+    font-size: x-small;
+  }
+
+  .table td,
+  .table th {
+    padding: .2rem;
   }
 }
 
 @media (min-width: 992px) {
+  h1 {
+    margin: 3rem;
+  }
+
   .amount {
-    width: 25%;
+    width: 35%;
+    display: inline-block;
+  }
+
+  .btn-amount {
+    margin: 0;
+    width: 20px;
+    height: 20px;
   }
 
   .table {
@@ -85,6 +121,11 @@ h1 {
     width: 18rem;
     font-size: medium;
     margin-bottom: 15%;
+    z-index: 1;
+  }
+
+  .card:hover {
+    border: 3px solid #261e5e;
   }
 
   .card-title {
@@ -94,6 +135,21 @@ h1 {
   .img-fluid {
     width: 180px;
     margin: auto;
+    -webkit-transition: -webkit-transform .3s;
+    transition: -webkit-transform .3s;
+    transition: transform .3s;
+    transition: transform .3s, -webkit-transform .3s;
+    z-index: 2;
+  }
+
+  .img-fluid:hover {
+    -webkit-transform: scale(2.5);
+            transform: scale(2.5);
+    z-index: 3;
+  }
+
+  .price-amount {
+    z-index: -2;
   }
 }
 

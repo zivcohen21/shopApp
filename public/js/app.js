@@ -15376,6 +15376,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -16305,22 +16306,39 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container-fluid" }, [
-    _c(
-      "p",
-      [
-        _c("router-link", { attrs: { to: "/", exact: "" } }, [_vm._v("Home")]),
-        _vm._v(" |\n        "),
-        _c("router-link", { attrs: { to: "/mycart" } }, [
-          _vm._v("My Cart (" + _vm._s(_vm.numberOfItems) + ")")
-        ])
-      ],
-      1
-    ),
+    _c("nav", { attrs: { "aria-label": "breadcrumb" } }, [
+      _c("ol", { staticClass: "breadcrumb" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "li",
+          {
+            staticClass: "breadcrumb-item active",
+            attrs: { "aria-current": "page" }
+          },
+          [
+            _c("a", { attrs: { href: "/mycart" } }, [
+              _c("i", { staticClass: "fas fa-shopping-cart fa" }),
+              _vm._v("(" + _vm._s(_vm.numberOfItems) + ")")
+            ])
+          ]
+        )
+      ])
+    ]),
     _vm._v(" "),
     _c("div", [_c("router-view", { key: _vm.$route.fullPath })], 1)
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", { staticClass: "breadcrumb-item" }, [
+      _c("a", { attrs: { href: "/" } }, [_vm._v("Home")])
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -16416,7 +16434,7 @@ exports = module.exports = __webpack_require__(13)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/*  @import '../../../../public/css/app.css';*/\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -16640,7 +16658,7 @@ var render = function() {
                     "ul",
                     {
                       staticClass:
-                        "list-group list-group-flush font-weight-light"
+                        "list-group list-group-flush font-weight-light price-amount"
                     },
                     [
                       _c("li", { staticClass: "list-group-item" }, [
@@ -16669,28 +16687,24 @@ var render = function() {
                         {
                           name: "model",
                           rawName: "v-model",
-                          value: _vm.amountToBuy[product.id],
-                          expression: "amountToBuy[product.id]"
+                          value: _vm.amountToBuy[index],
+                          expression: "amountToBuy[index]"
                         }
                       ],
-                      staticClass: "amount",
+                      staticClass: "amount form-control",
                       attrs: {
                         type: "number",
                         id: "quantity",
                         min: "1",
                         disabled: product.isincart || _vm.isAdded[index]
                       },
-                      domProps: { value: _vm.amountToBuy[product.id] },
+                      domProps: { value: _vm.amountToBuy[index] },
                       on: {
                         input: function($event) {
                           if ($event.target.composing) {
                             return
                           }
-                          _vm.$set(
-                            _vm.amountToBuy,
-                            product.id,
-                            $event.target.value
-                          )
+                          _vm.$set(_vm.amountToBuy, index, $event.target.value)
                         }
                       }
                     })
@@ -16823,7 +16837,7 @@ exports = module.exports = __webpack_require__(13)(false);
 
 
 // module
-exports.push([module.i, "\n.amount[data-v-7c84f9ba] {\n        width: 60px;\n}\n/*    .table {\n        width: 70%;\n    }*/\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -16837,6 +16851,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__event_bus__ = __webpack_require__(5);
+//
+//
+//
+//
 //
 //
 //
@@ -16904,6 +16922,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     var item = _this.cartList[index];
                     _this.currAmount[index] = item.amount;
                     _this.total += parseInt(item.price) * item.amount;
+                    _this.message[index] = '';
                 }
             });
         },
@@ -16926,6 +16945,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.total -= parseInt(item.price) * difAmount;
                 __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('api/mycart/' + item.id, item).then(function (res) {});
             } else {
+                this.total += 1;
+                this.total -= 1;
                 this.message[index] = 'Not Enough In Stock';
                 console.log(this.message[index]);
             }
@@ -16942,82 +16963,90 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row" }, [
-    _c("h1", [_vm._v("My Cart")]),
-    _vm._v(" "),
-    _c("table", { staticClass: "table" }, [
-      _vm._m(0),
+    _c("div", { staticClass: "col" }, [
+      _c("h1", [_vm._v("My Cart")]),
       _vm._v(" "),
-      _c(
-        "tbody",
-        _vm._l(_vm.cartList, function(item, index) {
-          return _c("tr", [
-            _c("td", [_vm._v(_vm._s(item.title))]),
-            _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(item.price))]),
-            _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(_vm.currAmount[index]))]),
-            _vm._v(" "),
-            _c("td", [
-              _c("input", {
-                directives: [
+      _c("table", { staticClass: "table table-striped" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "tbody",
+          _vm._l(_vm.cartList, function(item, index) {
+            return _c("tr", [
+              _c("td", { staticClass: "align-middle text-center" }, [
+                _vm._v(_vm._s(item.title))
+              ]),
+              _vm._v(" "),
+              _c("td", { staticClass: "align-middle text-center" }, [
+                _vm._v(_vm._s(item.price))
+              ]),
+              _vm._v(" "),
+              _c("td", { staticClass: "align-middle text-center" }, [
+                _vm._v(_vm._s(_vm.currAmount[index]))
+              ]),
+              _vm._v(" "),
+              _c("td", { staticClass: "align-middle text-center" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: item.amount,
+                      expression: "item.amount"
+                    }
+                  ],
+                  staticClass: "amount form-control",
+                  attrs: { type: "number", id: "quantity", min: "1" },
+                  domProps: { value: item.amount },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(item, "amount", $event.target.value)
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("p", [_vm._v(" " + _vm._s(_vm.message[index]))])
+              ]),
+              _vm._v(" "),
+              _c("td", { staticClass: "align-middle text-center" }, [
+                _c(
+                  "button",
                   {
-                    name: "model",
-                    rawName: "v-model",
-                    value: item.amount,
-                    expression: "item.amount"
-                  }
-                ],
-                staticClass: "amount",
-                attrs: { type: "number", id: "quantity", min: "1" },
-                domProps: { value: item.amount },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+                    staticClass: "btn btn-warning",
+                    on: {
+                      click: function($event) {
+                        _vm.changeAmount(item, index)
+                      }
                     }
-                    _vm.$set(item, "amount", $event.target.value)
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("td", [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-warning btn-xs pull-right",
-                  on: {
-                    click: function($event) {
-                      _vm.changeAmount(item, index)
+                  },
+                  [_vm._v("Change Amount")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("td", { staticClass: "align-middle text-center" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-danger",
+                    on: {
+                      click: function($event) {
+                        _vm.removeItem(item, index)
+                      }
                     }
-                  }
-                },
-                [_vm._v("Change Amount")]
-              )
-            ]),
-            _vm._v(" "),
-            _c("td", [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-danger btn-xs pull-right",
-                  on: {
-                    click: function($event) {
-                      _vm.removeItem(item, index)
-                    }
-                  }
-                },
-                [_vm._v("Delete Item")]
-              )
-            ]),
-            _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(_vm.message[index]))])
-          ])
-        })
-      )
-    ]),
-    _vm._v(" "),
-    _c("p", [_vm._v("Total Price: " + _vm._s(_vm.total))])
+                  },
+                  [_vm._v("Delete Item")]
+                )
+              ])
+            ])
+          })
+        )
+      ]),
+      _vm._v(" "),
+      _c("p", [_vm._v("Total Price: " + _vm._s(_vm.total))])
+    ])
   ])
 }
 var staticRenderFns = [
@@ -17026,18 +17055,18 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("Title")]),
+      _c("tr", { staticClass: "text-center" }, [
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Title")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Price")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Price")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Amount")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Amount")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Change Amount")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Change Amount")]),
         _vm._v(" "),
-        _c("th"),
+        _c("th", { attrs: { scope: "col" } }),
         _vm._v(" "),
-        _c("th")
+        _c("th", { attrs: { scope: "col" } })
       ])
     ])
   }
