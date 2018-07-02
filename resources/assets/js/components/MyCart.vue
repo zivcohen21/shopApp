@@ -28,8 +28,8 @@
                         </td>
 
                         <td v-if="window.width < 600" class="align-middle text-center">
-                            <button @click="changeAmount(item, index)" class="btn btn-warning btn-cart" data-toggle="modal" data-target="#changeModal">Change Amount</button>
-                            <button @click="tryRemoveItem(item, index)" class="btn btn-danger btn-cart" data-toggle="modal" data-target="#deleteModal">Delete Item</button>
+                            <button @click="changeAmount(item, index)" class="btn btn-warning" data-toggle="modal" data-target="#changeModal">Change Amount</button>
+                            <button @click="tryRemoveItem(item, index)" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Delete Item</button>
                         </td>
                     </tr>
                 </tbody>
@@ -51,7 +51,7 @@
                         {{ messageToShow }}
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
+                        <button type="button" class="btn btn-secondary btn-modal" data-dismiss="modal">OK</button>
                     </div>
                 </div>
             </div>
@@ -72,7 +72,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                        <button @click="removeItem()" type="button" class="btn btn-danger" data-dismiss="modal">Delete</button>
+                        <button @click="removeItem()" type="button" class="btn btn-danger btn-modal" data-dismiss="modal">Delete</button>
                     </div>
                 </div>
             </div>

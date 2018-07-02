@@ -16861,7 +16861,7 @@ var staticRenderFns = [
       _c(
         "button",
         {
-          staticClass: "btn btn-secondary",
+          staticClass: "btn btn-secondary btn-modal",
           attrs: { type: "button", "data-dismiss": "modal" }
         },
         [_vm._v("OK")]
@@ -17263,7 +17263,7 @@ var render = function() {
                     _c(
                       "button",
                       {
-                        staticClass: "btn btn-warning btn-cart",
+                        staticClass: "btn btn-warning",
                         attrs: {
                           "data-toggle": "modal",
                           "data-target": "#changeModal"
@@ -17280,7 +17280,7 @@ var render = function() {
                     _c(
                       "button",
                       {
-                        staticClass: "btn btn-danger btn-cart",
+                        staticClass: "btn btn-danger",
                         attrs: {
                           "data-toggle": "modal",
                           "data-target": "#deleteModal"
@@ -17383,7 +17383,7 @@ var render = function() {
                 _c(
                   "button",
                   {
-                    staticClass: "btn btn-danger",
+                    staticClass: "btn btn-danger btn-modal",
                     attrs: { type: "button", "data-dismiss": "modal" },
                     on: {
                       click: function($event) {
@@ -17455,7 +17455,7 @@ var staticRenderFns = [
       _c(
         "button",
         {
-          staticClass: "btn btn-secondary",
+          staticClass: "btn btn-secondary btn-modal",
           attrs: { type: "button", "data-dismiss": "modal" }
         },
         [_vm._v("OK")]

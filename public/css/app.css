@@ -93,15 +93,25 @@
     padding: 3px;
   }
 
-  /*  .btn-cart {
-    margin: 8px;
-  }*/
-
   .total-price {
     font-weight: bold;
     font-family: monospace;
     color: #1c1740;
     font-size: x-small;
+  }
+
+  .img-fluid:hover {
+    -webkit-transform: scale(1.5);
+            transform: scale(1.5);
+    z-index: 3;
+  }
+
+  .btn-modal {
+    font-size: x-small;
+    font-weight: bold;
+    font-family: monospace;
+    height: 30px;
+    margin: auto;
   }
 }
 
