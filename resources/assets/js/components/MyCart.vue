@@ -71,7 +71,7 @@
                         Delete Item?
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                        <button type="button" class="btn btn-secondary btn-modal" data-dismiss="modal">No</button>
                         <button @click="removeItem()" type="button" class="btn btn-danger btn-modal" data-dismiss="modal">Delete</button>
                     </div>
                 </div>

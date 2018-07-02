@@ -17374,7 +17374,7 @@ var render = function() {
                 _c(
                   "button",
                   {
-                    staticClass: "btn btn-secondary",
+                    staticClass: "btn btn-secondary btn-modal",
                     attrs: { type: "button", "data-dismiss": "modal" }
                   },
                   [_vm._v("No")]
