@@ -123,7 +123,7 @@
                     this.message[index] = 'Choose Amount To Buy';
                     this.messageToShow = this.message[index];
                 }
-                else if(this.cartData.amountToBuy !== 0 && this.cartData.amountToBuy <= this.list[index].amount)
+                else if(this.cartData.amountToBuy <= this.list[index].amount)
                 {
                     axios.post('api/products', this.cartData).then((res) => {
                         if(res && res['data']['product'])

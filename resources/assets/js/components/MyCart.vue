@@ -151,7 +151,7 @@
             },
             changeAmount(item, index) {
 
-                if(!item.amount || item.amount .length === 0 || item.amount === 0){
+                if(!item.amount || item.amount.length === 0 || item.amount == 0){
                     this.message[index] = 'Choose Amount';
                     this.messageToShow = this.message[index];
                 }

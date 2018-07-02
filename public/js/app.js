@@ -16604,7 +16604,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (!this.cartData.amountToBuy || this.cartData.amountToBuy.length === 0 || this.cartData.amountToBuy === 0) {
                 this.message[index] = 'Choose Amount To Buy';
                 this.messageToShow = this.message[index];
-            } else if (this.cartData.amountToBuy !== 0 && this.cartData.amountToBuy <= this.list[index].amount) {
+            } else if (this.cartData.amountToBuy <= this.list[index].amount) {
                 __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('api/products', this.cartData).then(function (res) {
                     if (res && res['data']['product']) {
                         _this2.list[index].amount = res['data']['product'][0]['amount'];
@@ -17131,7 +17131,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         changeAmount: function changeAmount(item, index) {
 
-            if (!item.amount || item.amount.length === 0 || item.amount === 0) {
+            if (!item.amount || item.amount.length === 0 || item.amount == 0) {
                 this.message[index] = 'Choose Amount';
                 this.messageToShow = this.message[index];
             } else if (item.amount <= item.maxAmount) {
