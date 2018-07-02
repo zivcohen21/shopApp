@@ -11,7 +11,6 @@
                         <th scope="col">Change Amount</th>
                         <th scope="col"></th>
                         <th scope="col"></th>
-
                     </tr>
                 </thead>
                 <tbody>
@@ -151,7 +150,12 @@
 
             },
             changeAmount(item, index) {
-                if(item.amount <= item.maxAmount)
+
+                if(!item.amount || item.amount .length === 0 || item.amount === 0){
+                    this.message[index] = 'Choose Amount';
+                    this.messageToShow = this.message[index];
+                }
+                else if(item.amount <= item.maxAmount)
                 {
                     let difAmount = this.currAmount[index] - item.amount;
                     this.currAmount[index] = item.amount;
