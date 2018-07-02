@@ -142,6 +142,7 @@
 
                 axios.delete('api/mycart/' + this.itemDelete.id).then((res) => {
                         this.total -= (parseInt(this.itemDelete.price) * this.currAmount[this.indexDelete]);
+                        this.totalString = this.total.toLocaleString('en');
                         this.cartList.splice(this.indexDelete, 1);
                         this.currAmount.splice(this.indexDelete, 1);
                         this.message.splice(this.indexDelete, 1);

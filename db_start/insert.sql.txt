@@ -1,10 +1,20 @@
 INSERT INTO public.products(
 	created_at, updated_at, title, price, img, amount)
-	VALUES (now(), now(), 'prod1', 20, '', 20);
+	VALUES (now(), now(), 'Argentina Jersey', 200, 'https://foto.gettyimages.com/photos/on-display-the-argentina-shirt-for-the-fifa-world-cup-2018-in-russia-picture-id962496578-story-large-ab0ce78b-4f1b-4e9e-8dfc-caa965ef8817.jpg', 100);
 
 INSERT INTO public.products(
 created_at, updated_at, title, price, img, amount)
-VALUES (now(), now(), 'prod2', 50, '', 10);
+VALUES (now(), now(), 'Belgium Jersey', 150, 'https://foto.gettyimages.com/photos/on-display-the-belgium-shirt-for-the-fifa-world-cup-2018-in-russia-picture-id962496572-story-large-9c9f4214-bf4e-4cd0-bfb6-d00116e8d3cf.jpg', 80);
+
+INSERT INTO public.products(
+created_at, updated_at, title, price, img, amount)
+VALUES (now(), now(), 'Brazil Jersey', 170, 'https://foto.gettyimages.com/photos/on-display-the-brazil-shirt-for-the-fifa-world-cup-2018-in-russia-picture-id962496576-story-large-218ca4ae-18f2-46b5-b546-1e9cf607753a.jpg', 95);
+
+
+
+
+
+
 
 INSERT INTO public.products(
 	created_at, updated_at, title, price, img, amount)
@@ -17,4 +27,30 @@ VALUES (now(), now(), 'Belgium Jersey', 150, 'https://foto.gettyimages.com/photo
 
 INSERT INTO public.products(
 created_at, updated_at, title, price, img, amount)
-VALUES (now(), now(), 'Brazil Jersey', 170, 'https://foto.gettyimages.com/photos/on-display-the-brazil-shirt-for-the-fifa-world-cup-2018-in-russia-picture-id962496576-story-small-218ca4ae-18f2-46b5-b546-1e9cf607753a.jpg', 95);
+VALUES (now(), now(), 'Brazil Jersey', 170, 'https://foto.gettyimages.com/photos/on-display-the-brazil-shirt-for-the-fifa-world-cup-2018-in-russia-picture-id962496576-story-large-218ca4ae-18f2-46b5-b546-1e9cf607753a.jpg', 95);
+
+INSERT INTO public.products(
+	created_at, updated_at, title, price, img, amount)
+	VALUES (now(), now(), 'Argentina Jersey', 200, 'https://foto.gettyimages.com/photos/on-display-the-argentina-shirt-for-the-fifa-world-cup-2018-in-russia-picture-id962496578-story-large-ab0ce78b-4f1b-4e9e-8dfc-caa965ef8817.jpg', 100);
+
+INSERT INTO public.products(
+created_at, updated_at, title, price, img, amount)
+VALUES (now(), now(), 'Belgium Jersey', 150, 'https://foto.gettyimages.com/photos/on-display-the-belgium-shirt-for-the-fifa-world-cup-2018-in-russia-picture-id962496572-story-large-9c9f4214-bf4e-4cd0-bfb6-d00116e8d3cf.jpg', 80);
+
+
+INSERT INTO public.products(
+created_at, updated_at, title, price, img, amount)
+VALUES (now(), now(), 'Brazil Jersey', 170, 'https://foto.gettyimages.com/photos/on-display-the-brazil-shirt-for-the-fifa-world-cup-2018-in-russia-picture-id962496576-story-large-218ca4ae-18f2-46b5-b546-1e9cf607753a.jpg', 95);
+
+INSERT INTO public.products(
+	created_at, updated_at, title, price, img, amount)
+	VALUES (now(), now(), 'Argentina Jersey', 200, 'https://foto.gettyimages.com/photos/on-display-the-argentina-shirt-for-the-fifa-world-cup-2018-in-russia-picture-id962496578-story-large-ab0ce78b-4f1b-4e9e-8dfc-caa965ef8817.jpg', 100);
+
+INSERT INTO public.products(
+created_at, updated_at, title, price, img, amount)
+VALUES (now(), now(), 'Belgium Jersey', 150, 'https://foto.gettyimages.com/photos/on-display-the-belgium-shirt-for-the-fifa-world-cup-2018-in-russia-picture-id962496572-story-large-9c9f4214-bf4e-4cd0-bfb6-d00116e8d3cf.jpg', 80);
+
+
+INSERT INTO public.products(
+created_at, updated_at, title, price, img, amount)
+VALUES (now(), now(), 'Brazil Jersey', 170, 'https://foto.gettyimages.com/photos/on-display-the-brazil-shirt-for-the-fifa-world-cup-2018-in-russia-picture-id962496576-story-large-218ca4ae-18f2-46b5-b546-1e9cf607753a.jpg', 95);
