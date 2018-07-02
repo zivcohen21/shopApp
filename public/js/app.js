@@ -16434,7 +16434,7 @@ exports = module.exports = __webpack_require__(13)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -16600,7 +16600,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.cartData.productId = product.id;
             this.cartData.amountToBuy = parseInt(this.amountToBuy[index]);
             console.log(this.cartData);
-            if (this.cartData.amountToBuy <= this.list[index].amount) {
+
+            if (!this.cartData.amountToBuy || this.cartData.amountToBuy.length === 0 || this.cartData.amountToBuy === 0) {
+                this.message[index] = 'Choose Amount To Buy';
+                this.messageToShow = this.message[index];
+            } else if (this.cartData.amountToBuy !== 0 && this.cartData.amountToBuy <= this.list[index].amount) {
                 __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('api/products', this.cartData).then(function (res) {
                     if (res && res['data']['product']) {
                         _this2.list[index].amount = res['data']['product'][0]['amount'];
@@ -16618,7 +16622,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.btnTitle[index] = 'In Cart';
                 this.numberOfItems++;
                 __WEBPACK_IMPORTED_MODULE_1__event_bus__["a" /* EventBus */].$emit('numberOfItems', 1);
-            } else {
+            } else if (this.cartData.amountToBuy !== 0) {
                 this.message[index] = 'Not Enough In Stock';
                 this.messageToShow = this.message[index];
                 this.amountToBuy[index] = '';

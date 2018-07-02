@@ -118,7 +118,12 @@
                 this.cartData.productId = product.id;
                 this.cartData.amountToBuy = parseInt(this.amountToBuy[index]);
                 console.log(this.cartData);
-                if(this.cartData.amountToBuy <= this.list[index].amount)
+
+                if(!this.cartData.amountToBuy || this.cartData.amountToBuy.length === 0 || this.cartData.amountToBuy === 0){
+                    this.message[index] = 'Choose Amount To Buy';
+                    this.messageToShow = this.message[index];
+                }
+                else if(this.cartData.amountToBuy !== 0 && this.cartData.amountToBuy <= this.list[index].amount)
                 {
                     axios.post('api/products', this.cartData).then((res) => {
                         if(res && res['data']['product'])
@@ -143,12 +148,14 @@
                     EventBus.$emit('numberOfItems', 1);
 
                 }
-                else {
+                else if(this.cartData.amountToBuy !== 0){
                     this.message[index] = 'Not Enough In Stock';
                     this.messageToShow = this.message[index];
                     this.amountToBuy[index] = '';
                     console.log(this.message[index]);
                 }
+
+
             },
 
         },
