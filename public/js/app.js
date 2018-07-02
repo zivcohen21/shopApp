@@ -16434,7 +16434,7 @@ exports = module.exports = __webpack_require__(13)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -16537,9 +16537,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
 
 
 
@@ -16565,7 +16562,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             message: [],
             numberOfItems: 0,
             isAdded: [],
-            btnTitle: []
+            btnTitle: [],
+            showAlert: [],
+            messageToShow: '',
+            search: ''
         };
     },
     created: function created() {
@@ -16587,6 +16587,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         } else {
                             _this.btnTitle[index] = 'In Cart';
                         }
+
+                        _this.showAlert[index] = false;
                     }
                 }
                 console.log(_this.list);
@@ -16596,7 +16598,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this2 = this;
 
             this.cartData.productId = product.id;
-            this.cartData.amountToBuy = parseInt(this.amountToBuy[product.id]);
+            this.cartData.amountToBuy = parseInt(this.amountToBuy[index]);
             console.log(this.cartData);
             if (this.cartData.amountToBuy <= this.list[index].amount) {
                 __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('api/products', this.cartData).then(function (res) {
@@ -16606,18 +16608,34 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         _this2.list[index].amount = 0;
                     }
                 });
+                if (this.cartData.amountToBuy === 1) {
+                    this.message[index] = this.cartData.amountToBuy + ' ' + product.title + ' Added To Your Cart';
+                } else {
+                    this.message[index] = this.cartData.amountToBuy + ' ' + product.title + 's Added To Your Cart';
+                }
+                this.messageToShow = this.message[index];
                 this.isAdded[index] = true;
                 this.btnTitle[index] = 'In Cart';
-                this.amountToBuy[product.id] = '';
                 this.numberOfItems++;
                 __WEBPACK_IMPORTED_MODULE_1__event_bus__["a" /* EventBus */].$emit('numberOfItems', 1);
             } else {
                 this.message[index] = 'Not Enough In Stock';
-                this.amountToBuy[product.id] = '';
+                this.messageToShow = this.message[index];
+                this.amountToBuy[index] = '';
                 console.log(this.message[index]);
             }
         }
+    },
+    computed: {
+        filteredList: function filteredList() {
+            var _this3 = this;
+
+            return this.list.filter(function (product) {
+                return product.title.toLowerCase().includes(_this3.search.toLowerCase());
+            });
+        }
     }
+
 });
 
 /***/ }),
@@ -16636,10 +16654,34 @@ var render = function() {
         ? _c("p", [_vm._v("No Available Products!")])
         : _vm._e(),
       _vm._v(" "),
+      _c("div", { staticClass: "search-wrapper" }, [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.search,
+              expression: "search"
+            }
+          ],
+          staticClass: "form-control search-input",
+          attrs: { type: "text", placeholder: "Search by title" },
+          domProps: { value: _vm.search },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.search = $event.target.value
+            }
+          }
+        })
+      ]),
+      _vm._v(" "),
       _c(
         "div",
         { staticClass: "row" },
-        _vm._l(_vm.list, function(product, index) {
+        _vm._l(_vm.filteredList, function(product, index) {
           return product.amount !== 0
             ? _c("div", { staticClass: "col-auto" }, [
                 _c("div", { staticClass: "card" }, [
@@ -16716,7 +16758,9 @@ var render = function() {
                       {
                         staticClass: "btn btn-success",
                         attrs: {
-                          disabled: product.isincart || _vm.isAdded[index]
+                          disabled: product.isincart || _vm.isAdded[index],
+                          "data-toggle": "modal",
+                          "data-target": "#changeModal"
                         },
                         on: {
                           click: function($event) {
@@ -16738,10 +16782,89 @@ var render = function() {
             : _vm._e()
         })
       )
-    ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "changeModal",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "exampleModalCenterTitle",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "modal-dialog modal-dialog-centered",
+            attrs: { role: "document" }
+          },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _vm._v(
+                  "\n                    " +
+                    _vm._s(_vm.messageToShow) +
+                    "\n                "
+                )
+              ]),
+              _vm._v(" "),
+              _vm._m(1)
+            ])
+          ]
+        )
+      ]
+    )
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "changeModalTitle" } },
+        [_vm._v("Message")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-secondary",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("OK")]
+      )
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -16837,7 +16960,7 @@ exports = module.exports = __webpack_require__(13)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -16851,6 +16974,56 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__event_bus__ = __webpack_require__(5);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -16903,11 +17076,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             currAmount: [],
             message: [],
             cartList: [],
-            total: 0
+            total: 0,
+            totalString: '',
+            window: {
+                width: window.innerWidth,
+                height: window.innerHeight
+            },
+            messageToShow: '',
+            toDelete: false,
+            itemDelete: '',
+            indexDelete: ''
         };
     },
     created: function created() {
         this.fetchCartList();
+        window.addEventListener('resize', this.handleResize);
+    },
+    destroyed: function destroyed() {
+        window.removeEventListener('resize', this.handleResize);
     },
 
 
@@ -16922,18 +17108,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     var item = _this.cartList[index];
                     _this.currAmount[index] = item.amount;
                     _this.total += parseInt(item.price) * item.amount;
+
                     _this.message[index] = '';
                 }
+                _this.totalString = _this.total.toLocaleString('en');
             });
         },
-        removeItem: function removeItem(item, index) {
+        removeItem: function removeItem() {
             var _this2 = this;
 
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('api/mycart/' + item.id).then(function (res) {
-                _this2.total -= parseInt(item.price) * _this2.currAmount[index];
-                _this2.cartList.splice(index, 1);
-                _this2.currAmount.splice(index, 1);
-                _this2.message.splice(index, 1);
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('api/mycart/' + this.itemDelete.id).then(function (res) {
+                _this2.total -= parseInt(_this2.itemDelete.price) * _this2.currAmount[_this2.indexDelete];
+                _this2.cartList.splice(_this2.indexDelete, 1);
+                _this2.currAmount.splice(_this2.indexDelete, 1);
+                _this2.message.splice(_this2.indexDelete, 1);
                 __WEBPACK_IMPORTED_MODULE_1__event_bus__["a" /* EventBus */].$emit('numberOfItems', 0);
             });
         },
@@ -16943,13 +17131,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.currAmount[index] = item.amount;
                 console.log(this.currAmount[index]);
                 this.total -= parseInt(item.price) * difAmount;
+                this.totalString = this.total.toLocaleString('en');
                 __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('api/mycart/' + item.id, item).then(function (res) {});
+
+                this.message[index] = "Amount Changed To " + item.amount;
+                this.messageToShow = this.message[index];
             } else {
-                this.total += 1;
-                this.total -= 1;
                 this.message[index] = 'Not Enough In Stock';
+                this.messageToShow = this.message[index];
                 console.log(this.message[index]);
             }
+        },
+        handleResize: function handleResize() {
+            this.window.width = window.innerWidth;
+            this.window.height = window.innerHeight;
+        },
+        tryRemoveItem: function tryRemoveItem(item, index) {
+            this.itemDelete = item;
+            this.indexDelete = index;
         }
     }
 });
@@ -16978,7 +17177,7 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("td", { staticClass: "align-middle text-center" }, [
-                _vm._v(_vm._s(item.price))
+                _vm._v(_vm._s(item.price) + "$")
               ]),
               _vm._v(" "),
               _c("td", { staticClass: "align-middle text-center" }, [
@@ -17006,47 +17205,192 @@ var render = function() {
                       _vm.$set(item, "amount", $event.target.value)
                     }
                   }
-                }),
-                _vm._v(" "),
-                _c("p", [_vm._v(" " + _vm._s(_vm.message[index]))])
+                })
               ]),
               _vm._v(" "),
-              _c("td", { staticClass: "align-middle text-center" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-warning",
-                    on: {
-                      click: function($event) {
-                        _vm.changeAmount(item, index)
-                      }
-                    }
-                  },
-                  [_vm._v("Change Amount")]
-                )
-              ]),
+              _vm.window.width > 600
+                ? _c("td", { staticClass: "align-middle text-center" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-warning",
+                        attrs: {
+                          "data-toggle": "modal",
+                          "data-target": "#changeModal"
+                        },
+                        on: {
+                          click: function($event) {
+                            _vm.changeAmount(item, index)
+                          }
+                        }
+                      },
+                      [_vm._v("Change Amount")]
+                    )
+                  ])
+                : _vm._e(),
               _vm._v(" "),
-              _c("td", { staticClass: "align-middle text-center" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-danger",
-                    on: {
-                      click: function($event) {
-                        _vm.removeItem(item, index)
-                      }
-                    }
-                  },
-                  [_vm._v("Delete Item")]
-                )
-              ])
+              _vm.window.width > 600
+                ? _c("td", { staticClass: "align-middle text-center" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-danger",
+                        attrs: {
+                          "data-toggle": "modal",
+                          "data-target": "#deleteModal"
+                        },
+                        on: {
+                          click: function($event) {
+                            _vm.tryRemoveItem(item, index)
+                          }
+                        }
+                      },
+                      [_vm._v("Delete Item")]
+                    )
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.window.width < 600
+                ? _c("td", { staticClass: "align-middle text-center" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-warning btn-cart",
+                        attrs: {
+                          "data-toggle": "modal",
+                          "data-target": "#changeModal"
+                        },
+                        on: {
+                          click: function($event) {
+                            _vm.changeAmount(item, index)
+                          }
+                        }
+                      },
+                      [_vm._v("Change Amount")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-danger btn-cart",
+                        attrs: {
+                          "data-toggle": "modal",
+                          "data-target": "#deleteModal"
+                        },
+                        on: {
+                          click: function($event) {
+                            _vm.tryRemoveItem(item, index)
+                          }
+                        }
+                      },
+                      [_vm._v("Delete Item")]
+                    )
+                  ])
+                : _vm._e()
             ])
           })
         )
       ]),
       _vm._v(" "),
-      _c("p", [_vm._v("Total Price: " + _vm._s(_vm.total))])
-    ])
+      _c("p", { staticClass: "total-price" }, [
+        _vm._v("Total Price: " + _vm._s(_vm.totalString) + " $")
+      ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "changeModal",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "exampleModalCenterTitle",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "modal-dialog modal-dialog-centered",
+            attrs: { role: "document" }
+          },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _vm._m(1),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _vm._v(
+                  "\n                    " +
+                    _vm._s(_vm.messageToShow) +
+                    "\n                "
+                )
+              ]),
+              _vm._v(" "),
+              _vm._m(2)
+            ])
+          ]
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "deleteModal",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "exampleModalCenterTitle",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "modal-dialog modal-dialog-centered",
+            attrs: { role: "document" }
+          },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _vm._m(3),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _vm._v("\n                    Delete Item?\n                ")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button", "data-dismiss": "modal" }
+                  },
+                  [_vm._v("No")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-danger",
+                    attrs: { type: "button", "data-dismiss": "modal" },
+                    on: {
+                      click: function($event) {
+                        _vm.removeItem()
+                      }
+                    }
+                  },
+                  [_vm._v("Delete")]
+                )
+              ])
+            ])
+          ]
+        )
+      ]
+    )
   ])
 }
 var staticRenderFns = [
@@ -17068,6 +17412,71 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } })
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "changeModalTitle" } },
+        [_vm._v("Message")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-secondary",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("OK")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "deleteModalTitle" } },
+        [_vm._v("Message")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
     ])
   }
 ]

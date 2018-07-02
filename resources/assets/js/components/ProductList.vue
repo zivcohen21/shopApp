@@ -3,35 +3,12 @@
         <div class="col">
             <h1>Our Products</h1>
             <p v-if='list.length === 0'>No Available Products!</p>
-           <!-- <table class="table table-hover" v-if='list.length !== 0'>
-                <thead>
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col">Price</th>
-                    <th scope="col">In Stock</th>
-                    <th scope="col">Amount To Buy</th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr v-if='product.amount !== 0' v-for="(product, index) in list">
-                    <td class="align-middle text-center"><img :src="product.img" class="img-fluid" width="180px"></td>
-                    <td class="align-middle">{{ product.title }}</td>
-                    <td class="align-middle">{{ product.price }}</td>
-                    <td class="align-middle">{{ product.amount }}</td>
-                    <td class="align-middle"> <input class="amount" type="number" id="quantity" min="1" v-model="amountToBuy[product.id]" :disabled="product.isincart || isAdded[index]"></td>
-                    <td class="align-middle"> <button @click="addToCart(product, index)" :disabled="product.isincart || isAdded[index]" class="btn btn-success">
-                        {{ btnTitle[index] }}
-                    </button></td>
-                    <td>{{ message[index] }}</td>
-                </tr>
-                </tbody>
 
-            </table>-->
+            <div class="search-wrapper">
+                <input class="form-control search-input" type="text" v-model="search" placeholder="Search by title"/>
+            </div>
             <div class="row">
-                <div class="col-auto" v-if='product.amount !== 0' v-for="(product, index) in list">
+                <div class="col-auto" v-if='product.amount !== 0' v-for="(product, index) in filteredList">
                     <div class="card">
                         <img class="card-img-top img-fluid" :src="product.img" alt="Card image cap">
                         <div class="card-body title-part">
@@ -46,7 +23,7 @@
                             <input class="amount form-control" type="number" id="quantity" min="1" v-model="amountToBuy[index]" :disabled="product.isincart || isAdded[index]">
                         </div>
                         <div class="wrapper-btn">
-                            <button @click="addToCart(product, index)" :disabled="product.isincart || isAdded[index]" class="btn btn-success">
+                            <button @click="addToCart(product, index)" :disabled="product.isincart || isAdded[index]" class="btn btn-success" data-toggle="modal" data-target="#changeModal">
                                 {{ btnTitle[index] }}
                             </button>
                         </div>
@@ -54,6 +31,26 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="changeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="changeModalTitle">Message</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {{ messageToShow }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </template>
 
@@ -82,7 +79,10 @@
                 message: [],
                 numberOfItems: 0,
                 isAdded: [],
-                btnTitle: []
+                btnTitle: [],
+                showAlert: [],
+                messageToShow: '',
+                search: '',
             };
         },
 
@@ -107,6 +107,8 @@
                             {
                                 this.btnTitle[index] = 'In Cart';
                             }
+
+                            this.showAlert[index] = false;
                         }
                     }
                     console.log( this.list);
@@ -114,7 +116,7 @@
             },
             addToCart(product, index) {
                 this.cartData.productId = product.id;
-                this.cartData.amountToBuy = parseInt(this.amountToBuy[product.id]);
+                this.cartData.amountToBuy = parseInt(this.amountToBuy[index]);
                 console.log(this.cartData);
                 if(this.cartData.amountToBuy <= this.list[index].amount)
                 {
@@ -127,19 +129,37 @@
                             this.list[index].amount = 0;
                         }
                     });
+                    if(this.cartData.amountToBuy === 1)
+                    {
+                        this.message[index] =  this.cartData.amountToBuy + ' ' + product.title + ' Added To Your Cart';
+                    }
+                    else {
+                        this.message[index] =  this.cartData.amountToBuy + ' ' + product.title + 's Added To Your Cart';
+                    }
+                    this.messageToShow = this.message[index];
                     this.isAdded[index] = true;
                     this.btnTitle[index] = 'In Cart';
-                    this.amountToBuy[product.id] = '';
                     this.numberOfItems++;
                     EventBus.$emit('numberOfItems', 1);
+
                 }
                 else {
                     this.message[index] = 'Not Enough In Stock';
-                    this.amountToBuy[product.id] = '';
+                    this.messageToShow = this.message[index];
+                    this.amountToBuy[index] = '';
                     console.log(this.message[index]);
                 }
             },
+
+        },
+        computed: {
+            filteredList() {
+                return this.list.filter(product => {
+                    return product.title.toLowerCase().includes(this.search.toLowerCase())
+                })
+            }
         }
+
     }
 </script>
 

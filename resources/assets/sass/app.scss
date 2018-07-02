@@ -5,13 +5,8 @@ h1 {
   font-family: monospace;
 }
 
-.btn {
-  width: 70%;
-  margin: 10%;
-}
-
 .wrapper-btn {
-  display: flex;
+  display: inline-block;
   align-items: center;
   justify-content: center;
 }
@@ -36,11 +31,19 @@ h1 {
     font-size: 1.35rem;
   }
 
-  .amount {
+  .search-input {
     width: 60%;
+    text-align: center;
+    margin: 10px auto 10px auto;
+    font-size: x-small;
+  }
+
+  .amount {
+    width: 25px;
     font-size: 0.6rem;
     display: inline-block;
     padding: 0;
+    text-align: center;
   }
 
   .card {
@@ -64,8 +67,10 @@ h1 {
   }
 
   .btn {
-    font-size: x-small;
+    width: 80%;
+    font-size: xx-small;
     padding: 0;
+    margin: 8px;
   }
 
   .list-group-item {
@@ -77,12 +82,24 @@ h1 {
   }
 
   .table {
-    font-size: x-small;
+    font-size: xx-small;
   }
 
   .table td, .table th {
-    padding: .2rem;
+    padding: 3px;
   }
+
+/*  .btn-cart {
+    margin: 8px;
+  }*/
+
+  .total-price {
+    font-weight: bold;
+    font-family: monospace;
+    color: #1c1740;
+    font-size: x-small;
+  }
+
 }
 
 // Medium devices (tablets, 768px and up)
@@ -96,9 +113,21 @@ h1 {
     margin: 3rem;
   }
 
+  .search-input {
+    width: 30%;
+    text-align: center;
+    margin: 40px auto 40px auto;
+  }
+
+  .btn {
+    width: 70%;
+    margin: 10%;
+  }
+
   .amount {
-    width: 35%;
+    width: 75px;
     display: inline-block;
+    text-align: center;
   }
 
   .btn-amount {
@@ -148,6 +177,14 @@ h1 {
     z-index: -2;
   }
 
+  .total-price {
+    font-weight: bold;
+    font-family: monospace;
+    color: #1c1740;
+    font-size: xx-large;
+    text-indent: 10%;
+    margin-top: 30px;
+  }
 
 }
 
